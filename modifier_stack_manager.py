@@ -15,7 +15,6 @@
 #  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # ##### END GPL LICENSE BLOCK #####
-# by meta-androcto, saidenka #
 
 bl_info = {
     "name": "Modifier Stack Manager",
