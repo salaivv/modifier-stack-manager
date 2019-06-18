@@ -10,3 +10,5 @@ Currently the addon is capable of the following all from one place:
   - Toggle render/viewport display
   - Apply all modifiers
   - Expand/Collapse all modifiers (code used from Modifier Tools addon)
+
+![Screenshot](modifier_stack_manager.jpg)
