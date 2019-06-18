@@ -11,4 +11,4 @@ Currently the addon is capable of the following all from one place:
   - Apply all modifiers
   - Expand/Collapse all modifiers (code used from Modifier Tools addon)
 
-![Screenshot](./screenshots/modifier_stack_manager.jpg)
+![Screenshot](https://github.com/salaivv/modifier-stack-manager/blob/master/screenshots/modifier_stack_manager.JPG)
