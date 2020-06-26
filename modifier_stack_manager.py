@@ -19,11 +19,10 @@
 bl_info = {
     "name": "Modifier Stack Manager",
     "author": "Salai Vedha Viradhan",
-    "version": (0, 1),
+    "version": (0, 2),
     "blender": (2, 80, 0),
     "location": "Properties > Modifiers",
     "description": "Implements a UIList for a modifier stack operations",
-    "warning": "Work in progess",
     "category": "3D View"
     }
 
