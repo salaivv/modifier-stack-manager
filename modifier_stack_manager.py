@@ -243,9 +243,10 @@ def register():
 
 def unregister():
     from bpy.utils import unregister_class
-    for cl in cls:
+    for cl in reversed(cls):
         unregister_class(cl)
     bpy.types.DATA_PT_modifiers.remove(draw)
+    del(bpy.types.Object.active_modifier_index)
 
 
 if __name__ == "__main__":
