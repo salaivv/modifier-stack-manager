@@ -16,16 +16,6 @@
 #
 # ##### END GPL LICENSE BLOCK #####
 
-# bl_info = {
-#     "name": "Modifier Stack Manager",
-#     "author": "Salai Vedha Viradhan",
-#     "version": (0, 2),
-#     "blender": (2, 80, 0),
-#     "location": "Properties > Modifiers",
-#     "description": "Implements a UIList for a modifier stack operations",
-#     "category": "3D View"
-# }
-
 
 import bpy
 from bpy.types import Panel, UIList, Operator
@@ -216,8 +206,10 @@ def draw(self, context):
         row.label(text='Modifiers')
         row = layout.row()
         col = row.column(align=True)
+
         col.template_list('MODIFIER_UL_modifier_stack', '', ob, 'modifiers', \
             ob, 'active_modifier_index', rows=addon_prefs.preferences.default_list_height)
+
         col.separator()
         col = col.row(align=True)
         col.operator('object.apply_all_modifiers', text='Apply All')
@@ -240,14 +232,17 @@ def draw(self, context):
 
 class ModiferStackManagerPreferences(bpy.types.AddonPreferences):
     bl_idname = __package__
+
     use_add_remove: bpy.props.BoolProperty(
         name="Show +/- buttons",
         description="Show +/- buttons to add/remove modifiers",
         default=True)
+
     default_list_height: bpy.props.IntProperty(
         name="Default List Height",
         description="Default list height in number of modifier items to display",
         default=5)
+
     use_modifer_types: bpy.props.BoolProperty(
         name="Show Modifer Types",
         description="Show modifer types instead of names in the list",
@@ -257,6 +252,7 @@ class ModiferStackManagerPreferences(bpy.types.AddonPreferences):
         layout = self.layout
 
         col = layout.column()
+
         col.label(text="Preferences")
         col.prop(self, "use_add_remove")
         col.prop(self, "default_list_height")
@@ -277,22 +273,14 @@ addon_keymaps = []
 
 
 def register():
-    extension_directory = bpy.utils.extension_path_user(__package__, path="test", create=True)
-    print(extension_directory)
-
-    print(__name__)
-    print(__package__)
-
-    import os
-    with open(os.path.join(extension_directory, 'test.txt'), 'w') as f:
-        f.write('Yay!')
-
     bpy.types.Object.active_modifier_index = IntProperty(default=0)
+
     from bpy.utils import register_class
     for cl in cls:
         register_class(cl)
 
     keymap_config = bpy.context.window_manager.keyconfigs.addon
+
     if keymap_config:
         km = keymap_config.keymaps.new(name='Object Mode', space_type='EMPTY')
         kmi = km.keymap_items.new("object.apply_all_modifiers", 'A', 'PRESS', \
@@ -314,7 +302,9 @@ def unregister():
 
     for cl in reversed(cls):
         unregister_class(cl)
+
     bpy.types.DATA_PT_modifiers.remove(draw)
+
     del(bpy.types.Object.active_modifier_index)
 
 
