@@ -1,0 +1,13 @@
+schema_version = "1.0.0"
+
+id = "modifer_stack_manager"
+version = "1.0.0"
+name = "Modifier Stack Manager"
+tagline = "A modifer stack manager for Blender"
+maintainer = "Salai Vedha Viradhan"
+type = "add-on"
+
+website = "https://github.com/salaivv/modifier-stack-manager"
+
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
