@@ -179,12 +179,10 @@ class MODIFIER_UL_modifier_stack(UIList):
 
             row = layout.row()
             
-            if addon_prefs.preferences.use_modifer_types:
-                row.prop(md, 'type', text="", emboss=False, icon_value=1, icon = self.get_mod_icon(md))
-            else:
-                row.prop(md, 'name', text="", emboss=False, icon_value=1, icon = self.get_mod_icon(md))
+            row.prop(md, 'name', text="", emboss=False, icon_value=1, icon = self.get_mod_icon(md))
             row.prop(md, 'show_render', text="", emboss=False, icon_only=True)
             row.prop(md, 'show_viewport', text="", emboss=False, icon_only=True)
+
         elif self.layout_type == 'GRID':
             layout.alignment = 'CENTER'
             layout.label(text='', icon_value=icon)
@@ -242,11 +240,6 @@ class ModiferStackManagerPreferences(bpy.types.AddonPreferences):
         name="Default List Height",
         description="Default list height in number of modifier items to display",
         default=5)
-
-    use_modifer_types: bpy.props.BoolProperty(
-        name="Show Modifer Types",
-        description="Show modifer types instead of names in the list",
-        default=False)
 
     def draw(self, context):
         layout = self.layout
