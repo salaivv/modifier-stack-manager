@@ -72,15 +72,14 @@ class ModifierCopy(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None
+        return context.active_object is not None \
+            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.active_object
-        if len(obj.modifiers) == 0:
-            return {'CANCELLED'}
-        else:
-            bpy.ops.object.modifier_copy(modifier=obj.modifiers[obj.active_modifier_index].name)
-            obj.active_modifier_index += 1
+        modifier = obj.modifiers[obj.active_modifier_index]
+        bpy.ops.object.modifier_copy(modifier=modifier.name)
+        obj.active_modifier_index += 1
         
         return {'FINISHED'}
 
@@ -92,19 +91,18 @@ class ModifierRemove(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None
+        return context.active_object is not None \
+            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.active_object
-        if len(obj.modifiers) == 0:
-            self.report({'INFO'}, 'No modifiers to remove.')
-            return {'CANCELLED'}
-        else:
-            if obj.active_modifier_index == 0:
-                bpy.ops.object.modifier_remove(modifier=obj.modifiers[obj.active_modifier_index].name)
-            else:
-                bpy.ops.object.modifier_remove(modifier=obj.modifiers[obj.active_modifier_index].name)
-                obj.active_modifier_index -= 1
+
+        modifier = obj.modifiers[obj.active_modifier_index]
+
+        bpy.ops.object.modifier_remove(modifier=modifier.name)
+
+        if obj.active_modifier_index != 0:
+            obj.active_modifier_index -= 1
             
         return {'FINISHED'}
 
@@ -116,23 +114,20 @@ class ModifierApplyAll(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.object is not None
+        return context.active_object is not None \
+            and len(context.object.modifiers) > 0 \
+            and context.mode == 'OBJECT'
     
     def execute(self, context):
-        obj = context.object
-        if len(obj.modifiers) == 0:
-            self.report({'INFO'}, 'No modifiers to apply.')
-            return {'CANCELLED'}
-        elif context.mode == 'EDIT_MESH':
-            self.report({'INFO'}, 'Modifiers cannot be applied in edit mode.')
-            return {'CANCELLED'}
-        else:
-            for mod in obj.modifiers:
-                try:
-                    bpy.ops.object.modifier_apply(modifier=mod.name)
-                except Exception as e:
-                    print(str(e))
-                    self.report({'INFO'}, 'Failed to apply all modifiers.')
+        obj = context.active_object
+
+        for mod in obj.modifiers:
+            try:
+                bpy.ops.object.modifier_apply(modifier=mod.name)
+            except Exception as e:
+                print(str(e))
+                self.report({'INFO'}, 'Failed to apply all modifiers.')
+
         return {'FINISHED'}
         
 
@@ -143,25 +138,14 @@ class ModifierExpandCollapse(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None
+        return context.active_object is not None \
+            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.active_object
-        if (len(obj.modifiers)):
-            vs = 0
-            for mod in obj.modifiers:
-                if (mod.show_expanded):
-                    vs += 1
-                else:
-                    vs -= 1
-            is_close = False
-            if (0 < vs):
-                is_close = True
-            for mod in obj.modifiers:
-                mod.show_expanded = not is_close
-        else:
-            self.report({'INFO'}, "No modifiers to Expand/Collapse")
-            return {'CANCELLED'}
+
+        mod = obj.modifiers[obj.active_modifier_index]
+        mod.show_expanded = not mod.show_expanded
             
         for area in context.screen.areas:
             area.tag_redraw()
@@ -170,13 +154,13 @@ class ModifierExpandCollapse(Operator):
 
 
 class MODIFIER_UL_modifier_stack(UIList):
-    def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
-        ob = data
+    def draw_item(
+        self, context, layout, data, item, 
+        icon, active_data, active_propname, index
+    ):
         md = item
         
         if self.layout_type in {'DEFAULT', 'COMPACT'}:
-            addon_prefs = bpy.context.preferences.addons[__package__]
-
             row = layout.row()
             
             row.prop(md, 'name', text="", emboss=False, icon_value=1, icon = self.get_mod_icon(md))
@@ -188,8 +172,7 @@ class MODIFIER_UL_modifier_stack(UIList):
             layout.label(text='', icon_value=icon)
             
     def get_mod_icon(self, md):
-        md_type = md.type
-        md_icon = bpy.types.Modifier.bl_rna.properties['type'].enum_items[md_type].icon
+        md_icon = bpy.types.Modifier.bl_rna.properties['type'].enum_items[md.type].icon
         return md_icon
      
     
@@ -249,14 +232,13 @@ class ModiferStackManagerPreferences(bpy.types.AddonPreferences):
         col.label(text="Preferences")
         col.prop(self, "use_add_remove")
         col.prop(self, "default_list_height")
-        col.prop(self, "use_modifer_types")
 
 
 cls = (
     ModifierMove,
+    ModifierCopy,
     ModifierRemove,
     ModifierApplyAll,
-    ModifierCopy,
     ModifierExpandCollapse,
     ModiferStackManagerPreferences,
     MODIFIER_UL_modifier_stack
@@ -272,6 +254,7 @@ def register():
 
     bpy.types.Object.active_modifier_index = IntProperty(
         default=0,
+        min=0,
         update=sync_active_modifier
     )
 
