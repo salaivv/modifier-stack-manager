@@ -273,7 +273,14 @@ addon_keymaps = []
 
 
 def register():
-    bpy.types.Object.active_modifier_index = IntProperty(default=0)
+    def sync_active_modifier(self, context):
+        obj = context.active_object
+        obj.modifiers.active = obj.modifiers[self.active_modifier_index]
+
+    bpy.types.Object.active_modifier_index = IntProperty(
+        default=0,
+        update=sync_active_modifier
+    )
 
     from bpy.utils import register_class
     for cl in cls:
