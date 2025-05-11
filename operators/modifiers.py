@@ -16,11 +16,11 @@ class ModifierMove(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None \
+        return context.object is not None \
             and len(context.object.modifiers) > 0
     
     def execute(self, context):
-        obj = context.active_object
+        obj = context.object
 
         if self.direction == 'UP':
             if obj.active_modifier_index == 0:
@@ -52,11 +52,11 @@ class ModifierCopy(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None \
+        return context.object is not None \
             and len(context.object.modifiers) > 0
     
     def execute(self, context):
-        obj = context.active_object
+        obj = context.object
         modifier = obj.modifiers[obj.active_modifier_index]
         bpy.ops.object.modifier_copy(modifier=modifier.name)
         obj.active_modifier_index += 1
@@ -71,11 +71,11 @@ class ModifierRemove(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None \
+        return context.object is not None \
             and len(context.object.modifiers) > 0
     
     def execute(self, context):
-        obj = context.active_object
+        obj = context.object
 
         modifier = obj.modifiers[obj.active_modifier_index]
 
@@ -94,12 +94,12 @@ class ModifierApplyAll(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None \
+        return context.object is not None \
             and len(context.object.modifiers) > 0 \
             and context.mode == 'OBJECT'
     
     def execute(self, context):
-        obj = context.active_object
+        obj = context.object
 
         for mod in obj.modifiers:
             try:
@@ -118,11 +118,11 @@ class ModifierExpandCollapse(Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.active_object is not None \
+        return context.object is not None \
             and len(context.object.modifiers) > 0
     
     def execute(self, context):
-        obj = context.active_object
+        obj = context.object
 
         mod = obj.modifiers[obj.active_modifier_index]
         mod.show_expanded = not mod.show_expanded
