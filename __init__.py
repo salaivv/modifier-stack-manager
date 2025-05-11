@@ -31,8 +31,6 @@ def draw(self, context):
     
     if ob:
         row = layout.row()
-        row.label(text='Modifiers')
-        row = layout.row()
         col = row.column(align=True)
 
         col.template_list('MODIFIER_UL_modifier_stack', '', ob, 'modifiers', \
@@ -63,7 +61,6 @@ cls = (
     preferences,
     ui
 )
-
 
 addon_keymaps = []
 
