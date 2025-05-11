@@ -18,9 +18,9 @@
 
 
 import bpy
-from .operators.modifiers import *
-from .ui.modifier_list import MODIFIER_UL_modifier_stack
-from .preferences import ModifierStackManagerPreferences
+from . import preferences
+from . import operators
+from . import ui
 
      
 def draw(self, context):
@@ -59,14 +59,11 @@ def draw(self, context):
 
 
 cls = (
-    ModifierMove,
-    ModifierCopy,
-    ModifierRemove,
-    ModifierApplyAll,
-    ModifierExpandCollapse,
-    ModifierStackManagerPreferences,
-    MODIFIER_UL_modifier_stack
+    operators,
+    preferences,
+    ui
 )
+
 
 addon_keymaps = []
 
@@ -86,7 +83,7 @@ def register():
     )
 
     for cl in cls:
-        register_class(cl)
+        cl.register()
 
     bpy.types.DATA_PT_modifiers.prepend(draw)        
 
@@ -119,7 +116,7 @@ def unregister():
     bpy.types.DATA_PT_modifiers.remove(draw)
 
     for cl in reversed(cls):
-        unregister_class(cl)
+        cl.unregister()
 
     del(bpy.types.Object.active_modifier_index)
 

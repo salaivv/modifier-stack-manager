@@ -24,3 +24,15 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
         col.label(text="Preferences")
         col.prop(self, "use_add_remove")
         col.prop(self, "default_list_height")
+
+
+def register():
+    bpy.utils.register_class(ModifierStackManagerPreferences)
+
+
+def unregister():
+    bpy.utils.unregister_class(ModifierStackManagerPreferences)
+
+
+if __name__ == "__main__":
+    register()
