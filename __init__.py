@@ -72,11 +72,12 @@ addon_keymaps = []
 
 
 def register():
+    from bpy.props import IntProperty
+    from bpy.utils import register_class
+
     def sync_active_modifier(self, context):
         obj = context.active_object
         obj.modifiers.active = obj.modifiers[self.active_modifier_index]
-
-    from bpy.props import IntProperty
 
     bpy.types.Object.active_modifier_index = IntProperty(
         default=0,
@@ -84,20 +85,25 @@ def register():
         update=sync_active_modifier
     )
 
-    from bpy.utils import register_class
-
     for cl in cls:
         register_class(cl)
+
+    bpy.types.DATA_PT_modifiers.prepend(draw)        
 
     keymap_config = bpy.context.window_manager.keyconfigs.addon
 
     if keymap_config:
-        km = keymap_config.keymaps.new(name='Object Mode', space_type='EMPTY')
-        kmi = km.keymap_items.new("object.apply_all_modifiers", 'A', 'PRESS', \
-                                    ctrl=True, shift=True, alt=True)
+        km = keymap_config.keymaps.new(
+            name='Object Mode', space_type='EMPTY'
+        )
+
+        kmi = km.keymap_items.new(
+            "object.apply_all_modifiers", 'A', 'PRESS', \
+                                ctrl=True, shift=True, alt=True
+        )
+
         addon_keymaps.append((km, kmi))
 
-    bpy.types.DATA_PT_modifiers.prepend(draw)        
 
 
 def unregister():
@@ -110,10 +116,10 @@ def unregister():
 
     addon_keymaps.clear()
 
+    bpy.types.DATA_PT_modifiers.remove(draw)
+
     for cl in reversed(cls):
         unregister_class(cl)
-
-    bpy.types.DATA_PT_modifiers.remove(draw)
 
     del(bpy.types.Object.active_modifier_index)
 
