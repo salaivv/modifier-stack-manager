@@ -20,7 +20,7 @@
 import bpy
 from .operators.modifiers import *
 from .ui.modifier_list import MODIFIER_UL_modifier_stack
-from .preferences import ModiferStackManagerPreferences
+from .preferences import ModifierStackManagerPreferences
 
      
 def draw(self, context):
@@ -64,7 +64,7 @@ cls = (
     ModifierRemove,
     ModifierApplyAll,
     ModifierExpandCollapse,
-    ModiferStackManagerPreferences,
+    ModifierStackManagerPreferences,
     MODIFIER_UL_modifier_stack
 )
 
