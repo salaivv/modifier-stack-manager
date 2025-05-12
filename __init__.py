@@ -87,26 +87,21 @@ def register():
     keymap_config = bpy.context.window_manager.keyconfigs.addon
 
     if keymap_config:
-        km = keymap_config.keymaps.new(
-            name='Object Mode', space_type='EMPTY'
-        )
+        km = keymap_config.keymaps.new(name='Object Mode')
 
         kmi = km.keymap_items.new(
-            "object.apply_all_modifiers", 'A', 'PRESS', \
-                                ctrl=True, shift=True, alt=True
+            "object.apply_all_modifiers", 'A', 'PRESS',
+            ctrl=True, shift=True
         )
 
         addon_keymaps.append((km, kmi))
 
 
-
 def unregister():
     from bpy.utils import unregister_class
 
-    for km, kmi_idname in addon_keymaps:
-        for kmi in km.keymap_items:
-            if kmi.idname == kmi_idname:
-                km.keymap_items.remove(kmi)
+    for km, kmi in addon_keymaps:
+        km.keymap_items.remove(kmi)
 
     addon_keymaps.clear()
 
