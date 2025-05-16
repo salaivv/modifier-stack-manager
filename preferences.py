@@ -18,12 +18,10 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
 
     def draw(self, context):
         layout = self.layout
+        layout.use_property_split = True
 
-        col = layout.column()
-
-        col.label(text="Preferences")
-        col.prop(self, "use_add_remove")
-        col.prop(self, "default_list_height")
+        layout.prop(self, "use_add_remove")
+        layout.prop(self, "default_list_height")
 
 
 def register():
