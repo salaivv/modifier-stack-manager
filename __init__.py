@@ -27,19 +27,21 @@ def draw(self, context):
     addon_prefs = bpy.context.preferences.addons[__package__]
     layout = self.layout
     
-    ob = context.object
+    obj = context.object
     
-    if ob:
+    if obj:
         row = layout.row()
         col = row.column(align=True)
 
-        col.template_list('MODIFIER_UL_modifier_stack', '', ob, 'modifiers', \
-            ob, 'active_modifier_index', rows=addon_prefs.preferences.default_list_height)
+        col.template_list(
+            'MODIFIER_UL_modifier_stack', '', obj, 'modifiers', obj,
+            'active_modifier_index', rows=addon_prefs.preferences.default_list_height
+        )
 
         col.separator()
         col = col.row(align=True)
+        col.operator("object.apply_remove_modifier", text="Apply").mode = 'APPLY'
         col.operator('object.apply_all_modifiers', text='Apply All')
-        col.operator('object.expand_collapse_modifiers', text='Expand/Collapse')
         
         layout.separator()
         
@@ -47,7 +49,7 @@ def draw(self, context):
 
         if addon_prefs.preferences.use_add_remove:
             col.operator("object.modifier_add", text='', icon='ADD')
-            col.operator("object.remove_modifier", icon='REMOVE', text="")
+            col.operator("object.apply_remove_modifier", icon='REMOVE', text="").mode = 'REMOVE'
             col.separator()
 
         col.operator("object.copy_modifier", icon='DUPLICATE', text="")

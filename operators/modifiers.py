@@ -25,7 +25,7 @@ class ModifierMove(ModifierOperator):
             )
 
             if ret == {'CANCELLED'}:
-                self.report({'INFO'}, "Cannot move modifier up.")
+                self.report({'WARNING'}, "Cannot move modifier up.")
                 return {'CANCELLED'}
 
             obj.active_modifier_index -= 1
@@ -39,7 +39,7 @@ class ModifierMove(ModifierOperator):
             )
 
             if ret == {'CANCELLED'}:
-                self.report({'INFO'}, "Cannot move modifier down.")
+                self.report({'WARNING'}, "Cannot move modifier down.")
                 return {'CANCELLED'}
 
             obj.active_modifier_index += 1
@@ -60,18 +60,33 @@ class ModifierCopy(ModifierOperator):
         return {'FINISHED'}
 
 
-class ModifierRemove(ModifierOperator):
-    bl_idname = 'object.remove_modifier'
+class ModifierApplyRemove(ModifierOperator):
+    bl_idname = 'object.apply_remove_modifier'
     bl_label = 'Remove Modifier'
+
+    mode: bpy.props.EnumProperty(
+        items=[
+            ("APPLY", "Apply", "", 1),
+            ("REMOVE", "Remove", "", 2),
+        ],
+    )
     
     def execute(self, context):
         obj = context.object
 
         modifier = obj.modifiers[obj.active_modifier_index]
 
-        bpy.ops.object.modifier_remove(modifier=modifier.name)
+        if self.mode == 'APPLY':
+            try:
+                bpy.ops.object.modifier_apply(modifier=modifier.name)
+            except Exception as e:
+                print(str(e))
+                self.report({'ERROR'}, "Cannot apply modifier.")
+                return {'CANCELLED'}
+        else:
+            bpy.ops.object.modifier_remove(modifier=modifier.name)
 
-        if obj.active_modifier_index != 0:
+        if obj.active_modifier_index == len(obj.modifiers):
             obj.active_modifier_index -= 1
             
         return {'FINISHED'}
@@ -84,19 +99,25 @@ class ModifierApplyAll(ModifierOperator):
     @classmethod
     def poll(cls, context):
         return (
-            super().poll(cls, context) \
+            super().poll(context) \
                 and context.mode == 'OBJECT'
         )
     
     def execute(self, context):
         obj = context.object
 
+        failed = False
         for mod in obj.modifiers:
             try:
                 bpy.ops.object.modifier_apply(modifier=mod.name)
             except Exception as e:
+                failed = True
                 print(str(e))
-                self.report({'INFO'}, 'Failed to apply all modifiers.')
+                self.report({'WARNING'}, 'Failed to apply all modifiers.')
+
+        if failed:
+            active_mod = obj.modifiers.active
+            obj.active_modifier_index = ModifierOperator.get_modifier_index(active_mod)
 
         return {'FINISHED'}
         

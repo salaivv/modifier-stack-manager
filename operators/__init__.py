@@ -4,7 +4,7 @@ from .modifiers import *
 cls = (
 	ModifierMove,
 	ModifierCopy,
-	ModifierRemove,
+	ModifierApplyRemove,
 	ModifierApplyAll,
 	ModifierExpandCollapse
 )

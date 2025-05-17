@@ -10,3 +10,8 @@ class ModifierOperator(bpy.types.Operator):
             context.object is not None \
                 and len(context.object.modifiers) > 0
         )
+
+    @staticmethod
+    def get_modifier_index(modifier):
+        obj = modifier.id_data
+        return list(obj.modifiers).index(modifier)
