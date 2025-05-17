@@ -26,9 +26,13 @@ class ModifierMove(Operator):
             if obj.active_modifier_index == 0:
                 return {'CANCELLED'}
             
-            bpy.ops.object.modifier_move_up(
+            ret = bpy.ops.object.modifier_move_up(
                 modifier=obj.modifiers[obj.active_modifier_index].name
             )
+
+            if ret == {'CANCELLED'}:
+                self.report({'INFO'}, "Cannot move modifier up.")
+                return {'CANCELLED'}
 
             obj.active_modifier_index -= 1
 
@@ -36,9 +40,13 @@ class ModifierMove(Operator):
             if obj.active_modifier_index == len(obj.modifiers)-1:
                 return {'CANCELLED'}
             
-            bpy.ops.object.modifier_move_down(
+            ret = bpy.ops.object.modifier_move_down(
                 modifier=obj.modifiers[obj.active_modifier_index].name
             )
+
+            if ret == {'CANCELLED'}:
+                self.report({'INFO'}, "Cannot move modifier down.")
+                return {'CANCELLED'}
 
             obj.active_modifier_index += 1
         
