@@ -1,11 +1,10 @@
 import bpy
-from bpy.types import Operator
+from .common import ModifierOperator
 
 
-class ModifierMove(Operator):
+class ModifierMove(ModifierOperator):
     bl_idname = 'object.modifier_move'
     bl_label = 'Modifier Move Up'
-    bl_options = {'REGISTER', 'UNDO'}
     
     direction: bpy.props.EnumProperty(
         items=[
@@ -13,11 +12,6 @@ class ModifierMove(Operator):
             ("DOWN", "Down", "", 2),
         ],
     )
-    
-    @classmethod
-    def poll(cls, context):
-        return context.object is not None \
-            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.object
@@ -53,15 +47,9 @@ class ModifierMove(Operator):
         return {'FINISHED'}
     
 
-class ModifierCopy(Operator):
+class ModifierCopy(ModifierOperator):
     bl_idname = 'object.copy_modifier'
     bl_label = 'Copy Modifier'
-    bl_options = {'REGISTER', 'UNDO'}
-    
-    @classmethod
-    def poll(cls, context):
-        return context.object is not None \
-            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.object
@@ -72,15 +60,9 @@ class ModifierCopy(Operator):
         return {'FINISHED'}
 
 
-class ModifierRemove(Operator):
+class ModifierRemove(ModifierOperator):
     bl_idname = 'object.remove_modifier'
     bl_label = 'Remove Modifier'
-    bl_options = {'REGISTER', 'UNDO'}
-    
-    @classmethod
-    def poll(cls, context):
-        return context.object is not None \
-            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.object
@@ -95,16 +77,16 @@ class ModifierRemove(Operator):
         return {'FINISHED'}
 
 
-class ModifierApplyAll(Operator):
+class ModifierApplyAll(ModifierOperator):
     bl_idname = 'object.apply_all_modifiers'
     bl_label = 'Apply All'
-    bl_options = {'REGISTER', 'UNDO'}
     
     @classmethod
     def poll(cls, context):
-        return context.object is not None \
-            and len(context.object.modifiers) > 0 \
-            and context.mode == 'OBJECT'
+        return (
+            super().poll(cls, context) \
+                and context.mode == 'OBJECT'
+        )
     
     def execute(self, context):
         obj = context.object
@@ -119,15 +101,9 @@ class ModifierApplyAll(Operator):
         return {'FINISHED'}
         
 
-class ModifierExpandCollapse(Operator):
+class ModifierExpandCollapse(ModifierOperator):
     bl_idname = 'object.expand_collapse_modifiers'
     bl_label = 'Expand/Collapse'
-    bl_options = {'REGISTER', 'UNDO'}
-    
-    @classmethod
-    def poll(cls, context):
-        return context.object is not None \
-            and len(context.object.modifiers) > 0
     
     def execute(self, context):
         obj = context.object
