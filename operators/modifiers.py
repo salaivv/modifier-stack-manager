@@ -1,10 +1,11 @@
 import bpy
 from .common import ModifierOperator
+from .. import ops_category
 
 
 class ModifierMove(ModifierOperator):
-    bl_idname = 'object.modifier_move'
-    bl_label = 'Modifier Move Up'
+    bl_idname = f"{ops_category}.modifier_move"
+    bl_label = "Modifier Move Up"
     
     direction: bpy.props.EnumProperty(
         items=[
@@ -48,8 +49,8 @@ class ModifierMove(ModifierOperator):
     
 
 class ModifierCopy(ModifierOperator):
-    bl_idname = 'object.copy_modifier'
-    bl_label = 'Copy Modifier'
+    bl_idname = f"{ops_category}.copy_modifier"
+    bl_label = "Copy Modifier"
     
     def execute(self, context):
         obj = context.object
@@ -61,8 +62,8 @@ class ModifierCopy(ModifierOperator):
 
 
 class ModifierApplyRemove(ModifierOperator):
-    bl_idname = 'object.apply_remove_modifier'
-    bl_label = 'Remove Modifier'
+    bl_idname = f"{ops_category}.apply_remove_modifier"
+    bl_label = "Apply/Remove Modifier"
 
     mode: bpy.props.EnumProperty(
         items=[
@@ -93,8 +94,8 @@ class ModifierApplyRemove(ModifierOperator):
 
 
 class ModifierApplyAll(ModifierOperator):
-    bl_idname = 'object.apply_all_modifiers'
-    bl_label = 'Apply All'
+    bl_idname = f"{ops_category}.apply_all_modifiers"
+    bl_label = "Apply All"
     
     @classmethod
     def poll(cls, context):
@@ -113,7 +114,7 @@ class ModifierApplyAll(ModifierOperator):
             except Exception as e:
                 failed = True
                 print(str(e))
-                self.report({'WARNING'}, 'Failed to apply all modifiers.')
+                self.report({'WARNING'}, "Failed to apply all modifiers.")
 
         if failed:
             active_mod = obj.modifiers.active
@@ -123,8 +124,8 @@ class ModifierApplyAll(ModifierOperator):
         
 
 class ModifierExpandCollapse(ModifierOperator):
-    bl_idname = 'object.expand_collapse_modifiers'
-    bl_label = 'Expand/Collapse'
+    bl_idname = f"{ops_category}.expand_collapse_modifiers"
+    bl_label = "Expand/Collapse"
     
     def execute(self, context):
         obj = context.object

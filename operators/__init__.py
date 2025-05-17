@@ -1,4 +1,7 @@
-from .modifiers import *
+from .modifiers import (
+		ModifierMove, ModifierCopy, ModifierApplyRemove,
+		ModifierApplyAll, ModifierExpandCollapse
+	)
 
 
 cls = (
