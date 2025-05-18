@@ -1,15 +1,16 @@
-# modifier-stack-manager
-A modifier stack manager for Blender 2.8.
+# Modifier Stack Manager
 
-This is still work in progress.
+A modifier stack manager for Blender.
 
-Currently the addon is capable of the following all from one place:
-  - Rearrange modifiers
-  - Duplicate modifiers
-  - Add/Remove modifiers
-  - Rename modifiers
-  - Toggle render/viewport display
-  - Apply all modifiers
-  - Expand/Collapse all modifiers (code used from Modifier Tools addon)
+This addon implements a UI List for the modifier stack similar to the ones used to manage Materials, UV Maps, Vertex Groups, etc.
 
-![Screenshot](https://github.com/salaivv/modifier-stack-manager/blob/master/screenshots/modifier_stack_manager.JPG)
+The addon enables you to do the following actions directly from the list:
+
+  - Add/Remove Modifiers
+  - Duplicate Modifiers
+  - Rearrange Modifiers
+  - Rename Modifiers
+  - Toggle Render/Viewport Visibility
+  - Apply/Apply All Modifiers
+
+![Screenshot](screenshot.jpg)
