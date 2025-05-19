@@ -68,7 +68,7 @@ def draw(self, context):
             col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
             col.separator()
-            
+
             col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
 
 
@@ -106,7 +106,7 @@ def register():
         km = keymap_config.keymaps.new(name='Object Mode')
 
         kmi = km.keymap_items.new(
-            "object.apply_all_modifiers", 'A', 'PRESS',
+            f"{ops_category}.apply_all_modifiers", 'A', 'PRESS',
             ctrl=True, shift=True
         )
 
