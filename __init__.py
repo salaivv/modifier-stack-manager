@@ -53,12 +53,23 @@ def draw(self, context):
         if addon_prefs.preferences.use_add_remove:
             col.operator("object.modifier_add", text='', icon='ADD')
             col.operator(f"{ops_category}.apply_remove_modifier", icon='REMOVE', text="").mode = 'REMOVE'
+
             col.separator()
 
-        col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
-        col.separator()
-        col.operator(f"{ops_category}.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-        col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+            col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
+
+            col.separator()
+
+            col.operator(f"{ops_category}.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+        else:
+            col.operator(f"{ops_category}.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+            col.separator()
+            
+            col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
 
 
 cls = (
