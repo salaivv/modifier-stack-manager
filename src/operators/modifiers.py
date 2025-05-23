@@ -115,8 +115,11 @@ class ModifierApplyAll(ModifierOperator):
     def poll(cls, context):
         return (
             super().poll(context) \
-                and context.object.type != 'VOLUME'
                 and context.mode == 'OBJECT'
+                and context.object.type in {
+                    'MESH', 'CURVE', 'CURVES', 'FONT',
+                    'SURFACE', 'LATTICE', 'GREASEPENCIL'
+                }
         )
     
     def execute(self, context):
