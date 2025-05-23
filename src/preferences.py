@@ -13,7 +13,8 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
     default_list_height: bpy.props.IntProperty(
         name="Default List Height",
         description="Default list height in number of modifier items to display",
-        default=5
+        default=5,
+        min=5
     )
 
     def draw(self, context):
