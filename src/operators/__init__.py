@@ -1,13 +1,14 @@
 from .modifiers import (
-		ModifierMove, ModifierCopy, ModifierApplyRemove,
-		ModifierApplyAll, ModifierExpandCollapse
+		ModifierMove, ModifierCopy, ModifierApply,
+		ModifierRemove, ModifierApplyAll, ModifierExpandCollapse
 	)
 
 
 cls = (
 	ModifierMove,
 	ModifierCopy,
-	ModifierApplyRemove,
+	ModifierApply,
+	ModifierRemove,
 	ModifierApplyAll,
 	ModifierExpandCollapse
 )

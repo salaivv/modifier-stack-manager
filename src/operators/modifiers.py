@@ -60,31 +60,43 @@ class ModifierCopy(ModifierOperator):
         return {'FINISHED'}
 
 
-class ModifierApplyRemove(ModifierOperator):
-    bl_idname = f"object.apply_remove_modifier"
-    bl_label = "Apply/Remove Modifier"
+class ModifierApply(ModifierOperator):
+    bl_idname = f"object.apply_modifier"
+    bl_label = "Apply Modifier"
 
-    mode: bpy.props.EnumProperty(
-        items=[
-            ("APPLY", "Apply", "", 1),
-            ("REMOVE", "Remove", "", 2),
-        ],
-    )
+    @classmethod
+    def poll(cls, context):
+        return (
+            super().poll(context) \
+                and context.mode == 'OBJECT'
+        )
     
     def execute(self, context):
         obj = context.object
-
         modifier = obj.modifiers[obj.active_modifier_index]
 
-        if self.mode == 'APPLY':
-            try:
-                bpy.ops.object.modifier_apply(modifier=modifier.name)
-            except Exception as e:
-                print(str(e))
-                self.report({'ERROR'}, "Cannot apply modifier.")
-                return {'CANCELLED'}
-        else:
-            bpy.ops.object.modifier_remove(modifier=modifier.name)
+        try:
+            bpy.ops.object.modifier_apply(modifier=modifier.name)
+        except Exception as e:
+            print(str(e))
+            self.report({'ERROR'}, "Cannot apply this modifier.")
+            return {'CANCELLED'}
+
+        if obj.active_modifier_index == len(obj.modifiers):
+            obj.active_modifier_index -= 1
+            
+        return {'FINISHED'}
+
+
+class ModifierRemove(ModifierOperator):
+    bl_idname = f"object.remove_modifier"
+    bl_label = "Remove Modifier"
+    
+    def execute(self, context):
+        obj = context.object
+        modifier = obj.modifiers[obj.active_modifier_index]
+
+        bpy.ops.object.modifier_remove(modifier=modifier.name)
 
         if obj.active_modifier_index == len(obj.modifiers):
             obj.active_modifier_index -= 1

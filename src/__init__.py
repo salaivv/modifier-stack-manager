@@ -40,7 +40,7 @@ def draw(self, context):
 
         col.separator()
         col = col.row(align=True)
-        col.operator(f"object.apply_remove_modifier", text="Apply").mode = 'APPLY'
+        col.operator(f"object.apply_modifier", text="Apply")
         col.operator(f"object.apply_all_modifiers", text='Apply All')
         
         layout.separator()
@@ -49,7 +49,7 @@ def draw(self, context):
 
         if addon_prefs.preferences.use_add_remove:
             col.operator("object.modifier_add", text='', icon='ADD')
-            col.operator(f"object.apply_remove_modifier", icon='REMOVE', text="").mode = 'REMOVE'
+            col.operator(f"object.remove_modifier", icon='REMOVE', text="")
 
             col.separator()
 
