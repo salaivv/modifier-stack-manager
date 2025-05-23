@@ -1,10 +1,9 @@
 import bpy
 from .common import ModifierOperator
-from .. import ops_category
 
 
 class ModifierMove(ModifierOperator):
-    bl_idname = f"{ops_category}.modifier_move"
+    bl_idname = f"object.modifier_move"
     bl_label = "Modifier Move Up"
     
     direction: bpy.props.EnumProperty(
@@ -49,7 +48,7 @@ class ModifierMove(ModifierOperator):
     
 
 class ModifierCopy(ModifierOperator):
-    bl_idname = f"{ops_category}.copy_modifier"
+    bl_idname = f"object.copy_modifier"
     bl_label = "Copy Modifier"
     
     def execute(self, context):
@@ -62,7 +61,7 @@ class ModifierCopy(ModifierOperator):
 
 
 class ModifierApplyRemove(ModifierOperator):
-    bl_idname = f"{ops_category}.apply_remove_modifier"
+    bl_idname = f"object.apply_remove_modifier"
     bl_label = "Apply/Remove Modifier"
 
     mode: bpy.props.EnumProperty(
@@ -94,7 +93,7 @@ class ModifierApplyRemove(ModifierOperator):
 
 
 class ModifierApplyAll(ModifierOperator):
-    bl_idname = f"{ops_category}.apply_all_modifiers"
+    bl_idname = f"object.apply_all_modifiers"
     bl_label = "Apply All"
     
     @classmethod
@@ -124,7 +123,7 @@ class ModifierApplyAll(ModifierOperator):
         
 
 class ModifierExpandCollapse(ModifierOperator):
-    bl_idname = f"{ops_category}.expand_collapse_modifiers"
+    bl_idname = f"object.expand_collapse_modifiers"
     bl_label = "Expand/Collapse"
     
     def execute(self, context):

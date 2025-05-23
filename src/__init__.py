@@ -17,9 +17,6 @@
 # ##### END GPL LICENSE BLOCK #####
 
 
-ops_category = "mod_stack_man"
-
-
 import bpy
 from . import preferences
 from . import operators
@@ -43,8 +40,8 @@ def draw(self, context):
 
         col.separator()
         col = col.row(align=True)
-        col.operator(f"{ops_category}.apply_remove_modifier", text="Apply").mode = 'APPLY'
-        col.operator(f"{ops_category}.apply_all_modifiers", text='Apply All')
+        col.operator(f"object.apply_remove_modifier", text="Apply").mode = 'APPLY'
+        col.operator(f"object.apply_all_modifiers", text='Apply All')
         
         layout.separator()
         
@@ -52,24 +49,24 @@ def draw(self, context):
 
         if addon_prefs.preferences.use_add_remove:
             col.operator("object.modifier_add", text='', icon='ADD')
-            col.operator(f"{ops_category}.apply_remove_modifier", icon='REMOVE', text="").mode = 'REMOVE'
+            col.operator(f"object.apply_remove_modifier", icon='REMOVE', text="").mode = 'REMOVE'
 
             col.separator()
 
-            col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
+            col.operator(f"object.copy_modifier", icon='DUPLICATE', text="")
 
             col.separator()
 
-            col.operator(f"{ops_category}.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+            col.operator(f"object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator(f"object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
         else:
-            col.operator(f"{ops_category}.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator(f"{ops_category}.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+            col.operator(f"object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator(f"object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
             col.separator()
 
-            col.operator(f"{ops_category}.copy_modifier", icon='DUPLICATE', text="")
+            col.operator(f"object.copy_modifier", icon='DUPLICATE', text="")
 
 
 cls = (
