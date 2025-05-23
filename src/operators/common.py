@@ -6,8 +6,16 @@ class ModifierOperator(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
+        obj = context.object
+
+        supported_types = {
+            'MESH', 'CURVE', 'CURVES', 'FONT', 'SURFACE',
+            'LATTICE', 'GREASEPENCIL', 'VOLUME'
+        }
+
         return (
-            context.object is not None \
+            obj is not None \
+                and obj.type in supported_types
                 and len(context.object.modifiers) > 0
         )
 

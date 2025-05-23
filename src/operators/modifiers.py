@@ -69,6 +69,9 @@ class ModifierApply(ModifierOperator):
         return (
             super().poll(context) \
                 and context.mode == 'OBJECT'
+                and context.object.type in {
+                    'MESH', 'CURVES', 'LATTICE', 'GREASEPENCIL'
+                }
         )
     
     def execute(self, context):
@@ -112,6 +115,7 @@ class ModifierApplyAll(ModifierOperator):
     def poll(cls, context):
         return (
             super().poll(context) \
+                and context.object.type != 'VOLUME'
                 and context.mode == 'OBJECT'
         )
     
@@ -119,13 +123,21 @@ class ModifierApplyAll(ModifierOperator):
         obj = context.object
 
         failed = False
-        for mod in obj.modifiers:
-            try:
-                bpy.ops.object.modifier_apply(modifier=mod.name)
-            except Exception as e:
-                failed = True
-                print(str(e))
-                self.report({'WARNING'}, "Failed to apply all modifiers.")
+
+        if obj.type in {'MESH', 'CURVE', 'FONT', 'SURFACE'}:
+            bpy.ops.object.convert(target='MESH')
+
+        elif obj.type == 'CURVES':
+            bpy.ops.object.convert(target='CURVES')
+
+        elif obj.type in {'LATTICE', 'GREASEPENCIL'}:
+            for mod in obj.modifiers:
+                try:
+                    bpy.ops.object.modifier_apply(modifier=mod.name)
+                except Exception as e:
+                    failed = True
+                    print(str(e))
+                    self.report({'WARNING'}, "Failed to apply all modifiers.")
 
         if failed:
             active_mod = obj.modifiers.active
