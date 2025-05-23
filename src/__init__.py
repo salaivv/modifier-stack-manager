@@ -103,7 +103,7 @@ def register():
         km = keymap_config.keymaps.new(name='Object Mode')
 
         kmi = km.keymap_items.new(
-            f"{ops_category}.apply_all_modifiers", 'A', 'PRESS',
+            f"object.apply_all_modifiers", 'A', 'PRESS',
             ctrl=True, shift=True
         )
 
