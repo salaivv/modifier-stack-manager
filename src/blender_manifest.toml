@@ -7,7 +7,7 @@ tagline = "A UI List implementation for Blender's modifier stack"
 maintainer = "Salai Vedha Viradhan"
 type = "add-on"
 
-tags = ["3D View", "Object", "User Interface"]
+tags = ["Object", "User Interface"]
 
 website = "https://github.com/salaivv/modifier-stack-manager"
 
