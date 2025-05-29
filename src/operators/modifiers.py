@@ -1,5 +1,6 @@
 import bpy
 from .common import ModifierOperator
+from collections import Counter
 
 
 class ModifierMove(ModifierOperator):
@@ -151,13 +152,33 @@ class ModifierApplyAll(ModifierOperator):
 
 class ModifierExpandCollapse(ModifierOperator):
     bl_idname = f"object.expand_collapse_modifiers"
-    bl_label = "Expand/Collapse"
+    bl_label = "Expand/Collapse Modifiers"
     
+    affect: bpy.props.EnumProperty(
+        name="Affect",
+        items=[
+            ('ACTIVE', "Active", "", 1),
+            ('ALL', "All", "", 2)
+        ],
+        default=1,
+        options={'SKIP_SAVE'}
+    )
+
     def execute(self, context):
         obj = context.object
 
-        mod = obj.modifiers[obj.active_modifier_index]
-        mod.show_expanded = not mod.show_expanded
+        if self.affect == 'ACTIVE':
+            mod = obj.modifiers[obj.active_modifier_index]
+            mod.show_expanded = not mod.show_expanded
+        else:
+            state_count = ModifierOperator.get_expand_state_count(obj.modifiers)
+
+            expand = True
+            if state_count[True] > state_count[False]:
+                expand = False
+
+            for modifier in obj.modifiers:
+                modifier.show_expanded = expand
             
         for area in context.screen.areas:
             area.tag_redraw()

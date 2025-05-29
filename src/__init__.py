@@ -21,6 +21,7 @@ import bpy
 from . import preferences
 from . import operators
 from . import ui
+from .operators.common import ModifierOperator
 
 
 def draw(self, context):
@@ -39,9 +40,22 @@ def draw(self, context):
         )
 
         col.separator()
-        col = col.row(align=True)
-        col.operator(f"object.apply_modifier", text="Apply")
-        col.operator(f"object.apply_all_modifiers", text='Apply All')
+        grid = col.grid_flow(row_major=True, columns=2, align=True)
+        grid.operator(f"object.apply_modifier", text="Apply")
+        grid.operator(f"object.apply_all_modifiers", text='Apply All')
+
+        expand_text = "Expand"
+        expand_all_text = "Expand All"
+
+        if len(obj.modifiers) > 0:
+            active_mod = obj.modifiers[obj.active_modifier_index]
+            expand_text = "Collapse" if active_mod.show_expanded else "Expand"
+
+            state_count = ModifierOperator.get_expand_state_count(obj.modifiers)
+            expand_all_text = "Collapse All" if state_count[True] > state_count[False] else "Expand All"
+
+        grid.operator(f"object.expand_collapse_modifiers", text=expand_text).affect = 'ACTIVE'
+        grid.operator(f"object.expand_collapse_modifiers", text=expand_all_text).affect = 'ALL'
         
         layout.separator()
         

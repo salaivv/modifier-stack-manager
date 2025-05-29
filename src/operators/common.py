@@ -1,4 +1,5 @@
 import bpy
+from collections import Counter
 
 
 class ModifierOperator(bpy.types.Operator):
@@ -23,3 +24,10 @@ class ModifierOperator(bpy.types.Operator):
     def get_modifier_index(modifier):
         obj = modifier.id_data
         return list(obj.modifiers).index(modifier)
+
+    @staticmethod
+    def get_expand_state_count(modifiers):
+        expand_states = [True if modifier.show_expanded else False \
+                                    for modifier in modifiers]
+
+        return Counter(expand_states)
