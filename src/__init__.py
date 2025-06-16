@@ -40,8 +40,8 @@ def draw(self, context):
 
         col.separator()
         col = col.row(align=True)
-        col.operator(f"object.apply_modifier", text="Apply")
-        col.operator(f"object.apply_all_modifiers", text='Apply All')
+        col.operator("object.apply_modifier", text="Apply")
+        col.operator("object.apply_all_modifiers", text='Apply All')
         
         layout.separator()
         
@@ -49,24 +49,24 @@ def draw(self, context):
 
         if addon_prefs.preferences.use_add_remove:
             col.operator("object.modifier_add", text='', icon='ADD')
-            col.operator(f"object.remove_modifier", icon='REMOVE', text="")
+            col.operator("object.remove_modifier", icon='REMOVE', text="")
 
             col.separator()
 
-            col.operator(f"object.copy_modifier", icon='DUPLICATE', text="")
+            col.operator("object.copy_modifier", icon='DUPLICATE', text="")
 
             col.separator()
 
-            col.operator(f"object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator(f"object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+            col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
         else:
-            col.operator(f"object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator(f"object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+            col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+            col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
             col.separator()
 
-            col.operator(f"object.copy_modifier", icon='DUPLICATE', text="")
+            col.operator("object.copy_modifier", icon='DUPLICATE', text="")
 
 
 cls = (
@@ -79,14 +79,11 @@ addon_keymaps = []
 
 
 def register():
-    from bpy.props import IntProperty
-    from bpy.utils import register_class
-
     def update_active_modifier(self, context):
         obj = context.object
         obj.modifiers.active = obj.modifiers[self.active_modifier_index]
 
-    bpy.types.Object.active_modifier_index = IntProperty(
+    bpy.types.Object.active_modifier_index = bpy.props.IntProperty(
         default=0,
         min=0,
         update=update_active_modifier
@@ -103,7 +100,7 @@ def register():
         km = keymap_config.keymaps.new(name='Object Mode')
 
         kmi = km.keymap_items.new(
-            f"object.apply_all_modifiers", 'A', 'PRESS',
+            "object.apply_all_modifiers", 'A', 'PRESS',
             ctrl=True, shift=True
         )
 
