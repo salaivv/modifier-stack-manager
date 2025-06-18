@@ -108,8 +108,6 @@ def register():
 
 
 def unregister():
-    from bpy.utils import unregister_class
-
     for km, kmi in addon_keymaps:
         km.keymap_items.remove(kmi)
 
