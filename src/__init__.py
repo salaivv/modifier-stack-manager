@@ -17,10 +17,28 @@
 # ##### END GPL LICENSE BLOCK #####
 
 
-import bpy
-from . import preferences
-from . import operators
-from . import ui
+if "bpy" in locals():
+    import importlib
+
+    mods = (
+        preferences,
+        operators,
+        ui
+    )
+
+    for mod in mods:
+        importlib.reload(mod)
+
+    print("Add-on reloaded: Modifier Stack Manager")
+
+else:
+    import bpy
+
+    from . import (
+            preferences,
+            operators,
+            ui
+        )
 
 
 def draw(self, context):
