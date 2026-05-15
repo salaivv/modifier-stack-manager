@@ -3,11 +3,22 @@ import bpy
 import subprocess
 
 
+blender_path = bpy.app.binary_path
+
 this_dir = os.path.dirname(bpy.data.filepath)
-build_script = os.path.join(this_dir, "build.sh")
+source_dir = os.path.join(this_dir, "src")
 extension = os.path.join(this_dir, "modifier_stack_manager.zip")
 
-subprocess.run([build_script, "bd"])
+subprocess.run([
+    blender_path,
+    "--command",
+    "extension",
+    "build",
+    "--source-dir",
+    source_dir,
+    "--output-filepath",
+    extension
+])
 
 bpy.ops.extensions.package_uninstall(
     repo_index=1, 
