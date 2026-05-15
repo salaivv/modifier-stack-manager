@@ -14,6 +14,7 @@ The addon enables you to do the following actions directly from the list:
   - Rename Modifiers
   - Toggle Render/Viewport Visibility
   - Apply/Apply All Modifiers
+  - Expand selected modifier only and collapse the rest
 
 ## Development
 
