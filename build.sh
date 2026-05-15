@@ -20,7 +20,6 @@ build() {
 
 build_dev() {
     "$BLENDER" --command extension build --source-dir ./src --output-filepath ./modifier_stack_manager.zip
-    "$BLENDER" --command extension install-file -r user_default ./modifier_stack_manager.zip
 }
 
 
