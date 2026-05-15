@@ -23,4 +23,4 @@ The addon enables you to do the following actions directly from the list:
 3. Copy the code in `testing.py` to the Text Editor in `testing.blend`.
 4. As you make changes to the code, press the _Run Script_ ▶️ button in the Text Editor to build and reinstall the addon.
 
-_NOTE: If you have the addon previously installed from the [Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/), temporarily disable/uninstall it during development. Otherwise, you'll see two modifier stacks in the modifier panel._
+_NOTE: If you have the addon previously installed from the [Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/), temporarily uninstall it during development._
