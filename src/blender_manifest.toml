@@ -1,6 +1,6 @@
 schema_version = "1.0.0"
 
-id = "modifier_stack_manager"
+id = "modifer_stack_manager"
 version = "1.2.0"
 name = "Modifier Stack Manager"
 tagline = "A UI List implementation for Blender's modifier stack"
