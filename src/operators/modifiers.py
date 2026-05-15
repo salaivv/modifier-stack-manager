@@ -151,17 +151,32 @@ class ModifierApplyAll(ModifierOperator):
         return {'FINISHED'}
         
 
-class ModifierExpandCollapse(ModifierOperator):
-    bl_idname = "object.expand_collapse_modifiers"
-    bl_label = "Expand/Collapse"
-    
+class ModifierExpandSelectedOnly(ModifierOperator):
+    bl_idname = "object.expand_selected_modifier_only"
+    bl_label = "Expand Selected Only"
+
+    @classmethod
+    def poll(cls, context):
+        space_data = context.space_data
+
+        if 'context' in space_data.keys():
+            return (
+                super().poll(context) \
+                    and space_data.type == 'PROPERTIES'
+                    and space_data.context == 'MODIFIER'
+            )
+        else:
+            return False
+
     def execute(self, context):
         obj = context.object
 
-        mod = obj.modifiers[obj.active_modifier_index]
-        mod.show_expanded = not mod.show_expanded
-            
-        for area in context.screen.areas:
-            area.tag_redraw()
-            
+        active_modifier = obj.modifiers[obj.active_modifier_index]
+
+        for modifier in obj.modifiers:
+            if not modifier is active_modifier:
+                modifier.show_expanded = False
+        
+        active_modifier.show_expanded = True
+
         return {'FINISHED'}

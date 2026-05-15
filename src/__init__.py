@@ -100,17 +100,40 @@ def register():
 
     bpy.types.DATA_PT_modifiers.prepend(draw)        
 
+    keymaps = {
+        "Window": [
+            {
+                "idname": "object.apply_all_modifiers",
+                "type": 'A',
+                "value": 'PRESS',
+                "ctrl": True,
+                "shift": True,
+                "alt": False,
+            },
+            {
+                "idname": "object.expand_selected_modifier_only",
+                "type": 'E',
+                "value": 'PRESS',
+                "ctrl": False,
+                "shift": True,
+                "alt": False,
+            },
+        ]
+    }
+
     keymap_config = bpy.context.window_manager.keyconfigs.addon
 
     if keymap_config:
-        km = keymap_config.keymaps.new(name='Object Mode')
+        for km_name in keymaps.keys():
+            km = keymap_config.keymaps.new(name=km_name)
 
-        kmi = km.keymap_items.new(
-            "object.apply_all_modifiers", 'A', 'PRESS',
-            ctrl=True, shift=True
-        )
+            for keymap in keymaps[km_name]:
+                kmi = km.keymap_items.new(
+                    keymap["idname"], keymap["type"], keymap["value"],
+                    ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"]
+                )
 
-        addon_keymaps.append((km, kmi))
+                addon_keymaps.append((km, kmi))
 
 
 def unregister():
