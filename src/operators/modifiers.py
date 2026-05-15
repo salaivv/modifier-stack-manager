@@ -146,6 +146,8 @@ class ModifierApplyAll(ModifierOperator):
             active_mod = obj.modifiers.active
             obj.active_modifier_index = ModifierOperator.get_modifier_index(active_mod)
 
+        self.report({'INFO'}, "Applied all modifiers.")
+
         return {'FINISHED'}
         
 
