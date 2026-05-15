@@ -159,14 +159,13 @@ class ModifierExpandSelectedOnly(ModifierOperator):
     def poll(cls, context):
         space_data = context.space_data
 
-        if 'context' in space_data.keys():
+        if space_data.type == 'PROPERTIES':
             return (
                 super().poll(context) \
-                    and space_data.type == 'PROPERTIES'
                     and space_data.context == 'MODIFIER'
             )
-        else:
-            return False
+        
+        return False
 
     def execute(self, context):
         obj = context.object
