@@ -48,7 +48,11 @@ def draw(self, context):
         col = row.column(align=True)
 
         if addon_prefs.preferences.use_add_remove:
-            col.operator("object.modifier_add", text='', icon='ADD')
+            if addon_prefs.preferences.use_modifier_search:
+                col.operator("wm.search_single_menu", text='', icon='ADD').menu_idname = "OBJECT_MT_modifier_add"
+            else:
+                col.operator("wm.call_menu", text='', icon='ADD').name = "OBJECT_MT_modifier_add"
+                
             col.operator("object.remove_modifier", icon='REMOVE', text="")
 
             col.separator()

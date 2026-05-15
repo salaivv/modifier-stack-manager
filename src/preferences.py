@@ -10,6 +10,12 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
         default=True
     )
 
+    use_modifier_search: bpy.props.BoolProperty(
+        name="Use Modifier Search",
+        description="On pressing the + button, show modifier search instead of menu with categories",
+        default=True
+    )
+
     default_list_height: bpy.props.IntProperty(
         name="Default List Height",
         description="Default list height in number of modifier items to display",
@@ -22,6 +28,7 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
         layout.use_property_split = True
 
         layout.prop(self, "use_add_remove")
+        layout.prop(self, "use_modifier_search")
         layout.prop(self, "default_list_height")
 
 
