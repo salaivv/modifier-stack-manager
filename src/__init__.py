@@ -25,52 +25,54 @@ from . import ui
 
 def draw(self, context):
     addon_prefs = bpy.context.preferences.addons[__package__]
+
     layout = self.layout
     
     obj = context.object
     
-    if obj:
-        row = layout.row()
-        col = row.column(align=True)
+    row = layout.row()
+    col = row.column(align=True)
 
-        col.template_list(
-            'MODIFIER_UL_modifier_stack', '', obj, 'modifiers', obj,
-            'active_modifier_index', rows=addon_prefs.preferences.default_list_height
-        )
+    col.template_list(
+        'MODIFIER_UL_modifier_stack', '', obj, 'modifiers', obj,
+        'active_modifier_index', rows=addon_prefs.preferences.default_list_height
+    )
+
+    col.separator()
+
+    col = col.row(align=True)
+
+    col.operator("object.apply_modifier", text="Apply")
+    col.operator("object.apply_all_modifiers", text='Apply All')
+    
+    layout.separator()
+    
+    col = row.column(align=True)
+
+    if addon_prefs.preferences.use_add_remove:
+        if addon_prefs.preferences.use_modifier_search:
+            col.operator("wm.search_single_menu", text='', icon='ADD').menu_idname = "OBJECT_MT_modifier_add"
+        else:
+            col.operator("wm.call_menu", text='', icon='ADD').name = "OBJECT_MT_modifier_add"
+            
+        col.operator("object.remove_modifier", icon='REMOVE', text="")
 
         col.separator()
-        col = col.row(align=True)
-        col.operator("object.apply_modifier", text="Apply")
-        col.operator("object.apply_all_modifiers", text='Apply All')
-        
-        layout.separator()
-        
-        col = row.column(align=True)
 
-        if addon_prefs.preferences.use_add_remove:
-            if addon_prefs.preferences.use_modifier_search:
-                col.operator("wm.search_single_menu", text='', icon='ADD').menu_idname = "OBJECT_MT_modifier_add"
-            else:
-                col.operator("wm.call_menu", text='', icon='ADD').name = "OBJECT_MT_modifier_add"
-                
-            col.operator("object.remove_modifier", icon='REMOVE', text="")
+        col.operator("object.copy_modifier", icon='DUPLICATE', text="")
 
-            col.separator()
+        col.separator()
 
-            col.operator("object.copy_modifier", icon='DUPLICATE', text="")
+        col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+        col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
-            col.separator()
+    else:
+        col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+        col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
-            col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+        col.separator()
 
-        else:
-            col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-            col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
-
-            col.separator()
-
-            col.operator("object.copy_modifier", icon='DUPLICATE', text="")
+        col.operator("object.copy_modifier", icon='DUPLICATE', text="")
 
 
 cls = (
