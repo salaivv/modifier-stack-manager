@@ -173,7 +173,8 @@ class ModifierRemove(ModifierOperator):
 
 class ModifierExpandSelectedOnly(ModifierOperator):
     bl_idname = "object.msm_modifier_expand_selected_only"
-    bl_label = "Expand Selected Only"
+    bl_label = "Expand Selected Modifier Only"
+    bl_description = "Expand the selected modifier and collapse the rest"
 
     def execute(self, context):
         obj = context.object
