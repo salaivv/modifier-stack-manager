@@ -4,10 +4,22 @@ import bpy
 class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
     bl_idname = __package__
 
-    use_add_remove: bpy.props.BoolProperty(
-        name="Show +/- buttons",
+    use_add_remove_buttons: bpy.props.BoolProperty(
+        name="Show +/- Buttons",
         description="Show +/- buttons to add/remove modifiers",
         default=True
+    )
+
+    use_duplicate_button: bpy.props.BoolProperty(
+        name="Show Duplicate Button",
+        description="Show Duplicate Modifier button next to the modifier list",
+        default=True
+    )
+
+    use_apply_buttons: bpy.props.BoolProperty(
+        name="Show Apply/Apply All",
+        description="Show Apply/Apply All buttons below the modifier list",
+        default=False
     )
 
     use_modifier_search: bpy.props.BoolProperty(
@@ -19,15 +31,17 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
     default_list_height: bpy.props.IntProperty(
         name="Default List Height",
         description="Default list height in number of modifier items to display",
-        default=5,
-        min=5
+        default=6,
+        min=6
     )
 
     def draw(self, context):
         layout = self.layout
         layout.use_property_split = True
 
-        layout.prop(self, "use_add_remove")
+        layout.prop(self, "use_add_remove_buttons")
+        layout.prop(self, "use_duplicate_button")
+        layout.prop(self, "use_apply_buttons")
         layout.prop(self, "use_modifier_search")
         layout.prop(self, "default_list_height")
 
