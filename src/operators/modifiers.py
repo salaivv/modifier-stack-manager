@@ -3,8 +3,8 @@ from .common import ModifierOperator
 
 
 class ModifierMove(ModifierOperator):
-    bl_idname = "object.modifier_move"
-    bl_label = "Modifier Move Up"
+    bl_idname = "object.msm_modifier_move"
+    bl_label = "Modifier Move"
     
     direction: bpy.props.EnumProperty(
         items=[
@@ -48,7 +48,7 @@ class ModifierMove(ModifierOperator):
     
 
 class ModifierCopy(ModifierOperator):
-    bl_idname = "object.copy_modifier"
+    bl_idname = "object.msm_modifier_copy"
     bl_label = "Copy Modifier"
     
     def execute(self, context):
@@ -61,7 +61,7 @@ class ModifierCopy(ModifierOperator):
 
 
 class ModifierApply(ModifierOperator):
-    bl_idname = "object.apply_modifier"
+    bl_idname = "object.msm_modifier_apply"
     bl_label = "Apply Modifier"
 
     @classmethod
@@ -108,7 +108,7 @@ class ModifierRemove(ModifierOperator):
 
 
 class ModifierApplyAll(ModifierOperator):
-    bl_idname = "object.apply_all_modifiers"
+    bl_idname = "object.msm_modifier_apply_all"
     bl_label = "Apply All"
     
     @classmethod
@@ -149,10 +149,39 @@ class ModifierApplyAll(ModifierOperator):
         self.report({'INFO'}, "Applied all modifiers.")
 
         return {'FINISHED'}
+
+
+class ModifierRemove(ModifierOperator):
+    bl_idname = "object.msm_modifier_remove"
+    bl_label = "Remove Modifier"
+
+    all: bpy.props.BoolProperty(
+        name="Remove All",
+        default=False
+    )
+    
+    def execute(self, context):
+        obj = context.object
+
+        if self.all:
+            obj.modifiers.clear()
+            obj.active_modifier_index = 0
+            self.report({'INFO'}, "Removed all modifiers.")
+
+            return {'FINISHED'}
+
+        modifier = obj.modifiers[obj.active_modifier_index]
+
+        bpy.ops.object.modifier_remove(modifier=modifier.name)
+
+        if obj.active_modifier_index == len(obj.modifiers):
+            obj.active_modifier_index -= 1
+            
+        return {'FINISHED'}
         
 
 class ModifierExpandSelectedOnly(ModifierOperator):
-    bl_idname = "object.expand_selected_modifier_only"
+    bl_idname = "object.msm_modifier_expand_selected_only"
     bl_label = "Expand Selected Only"
 
     @classmethod
