@@ -9,8 +9,18 @@ class MODIFIER_MT_dropdown_menu(Menu):
     def draw(self, context):
         layout = self.layout
 
+        layout.operator("object.msm_modifier_apply", text="Apply Modifier", icon='CHECKMARK')
+        layout.operator("object.msm_modifier_apply_all", text="Apply All Modifiers")
+
+        layout.separator()
+
+        layout.operator("object.msm_modifier_expand_selected_only")
+
+        layout.operator("object.msm_modifier_collapse_all")
+
+        layout.separator()
+
         layout.operator("object.msm_modifier_copy", text="Duplicate Modifier", icon='DUPLICATE')
-        layout.operator("object.msm_modifier_apply_all", text="Apply All Modifiers", icon='CHECKMARK')
 
         layout.separator()
 
