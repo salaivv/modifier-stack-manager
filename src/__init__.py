@@ -78,9 +78,9 @@ def draw(self, context):
 
             col.operator("object.msm_modifier_copy", icon='DUPLICATE', text="")
 
-        col.separator()
-
-        col.operator("object.copy_modifier", icon='DUPLICATE', text="")
+    col.separator()
+    
+    col.menu("MODIFIER_MT_dropdown_menu", icon='DOWNARROW_HLT', text="")
 
 
 cls = (

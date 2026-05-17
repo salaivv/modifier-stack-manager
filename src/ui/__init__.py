@@ -1,9 +1,11 @@
 import bpy
 from .modifier_list import MODIFIER_UL_modifier_stack
+from .menus import MODIFIER_MT_dropdown_menu
 
 
 classes = [
 	MODIFIER_UL_modifier_stack,
+	MODIFIER_MT_dropdown_menu
 ]
 
 
