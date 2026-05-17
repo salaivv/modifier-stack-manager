@@ -1,6 +1,7 @@
 from .modifiers import (
 		ModifierMove, ModifierCopy, ModifierApply,
-		ModifierRemove, ModifierApplyAll, ModifierExpandSelectedOnly
+		ModifierRemove, ModifierApplyAll, ModifierExpandSelectedOnly,
+		ModifierCollapseAll
 	)
 
 
@@ -10,7 +11,8 @@ cls = (
 	ModifierApply,
 	ModifierRemove,
 	ModifierApplyAll,
-	ModifierExpandSelectedOnly
+	ModifierExpandSelectedOnly,
+	ModifierCollapseAll
 )
 
 

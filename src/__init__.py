@@ -160,6 +160,14 @@ def register():
             "shift": True,
             "alt": False,
         },
+        {
+            "idname": "object.msm_modifier_collapse_all",
+            "type": 'C',
+            "value": 'PRESS',
+            "ctrl": False,
+            "shift": True,
+            "alt": False,
+        },
     ]
 
     keymap_config = bpy.context.window_manager.keyconfigs.addon

@@ -188,3 +188,15 @@ class ModifierExpandSelectedOnly(ModifierOperator):
         active_modifier.show_expanded = True
 
         return {'FINISHED'}
+
+class ModifierCollapseAll(ModifierOperator):
+    bl_idname = "object.msm_modifier_collapse_all"
+    bl_label = "Collapse All Modifiers"
+
+    def execute(self, context):
+        obj = context.object
+
+        for modifier in obj.modifiers:
+            modifier.show_expanded = False
+        
+        return {'FINISHED'}
