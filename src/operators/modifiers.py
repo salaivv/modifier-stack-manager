@@ -12,37 +12,44 @@ class ModifierMove(ModifierOperator):
             ("DOWN", "Down", "", 2),
         ],
     )
+
+    move_to_end: bpy.props.BoolProperty(
+        name="Move to End",
+        default=False
+    )
+
+    def invoke(self, context, event):
+        self.move_to_end = event.shift
+        return self.execute(context)
     
     def execute(self, context):
         obj = context.object
 
+        to_index = None
+
         if self.direction == 'UP':
             if obj.active_modifier_index == 0:
                 return {'CANCELLED'}
-            
-            ret = bpy.ops.object.modifier_move_up(
-                modifier=obj.modifiers[obj.active_modifier_index].name
-            )
 
-            if ret == {'CANCELLED'}:
-                self.report({'WARNING'}, "Cannot move modifier up.")
-                return {'CANCELLED'}
-
-            obj.active_modifier_index -= 1
+            to_index = 0 if self.move_to_end else obj.active_modifier_index - 1
 
         elif self.direction == 'DOWN':
             if obj.active_modifier_index == len(obj.modifiers)-1:
                 return {'CANCELLED'}
-            
-            ret = bpy.ops.object.modifier_move_down(
-                modifier=obj.modifiers[obj.active_modifier_index].name
+
+            to_index = len(obj.modifiers)-1 if self.move_to_end else obj.active_modifier_index + 1
+
+        try:
+            obj.modifiers.move(
+                obj.active_modifier_index,
+                to_index
             )
 
-            if ret == {'CANCELLED'}:
-                self.report({'WARNING'}, "Cannot move modifier down.")
-                return {'CANCELLED'}
+            obj.active_modifier_index = to_index
 
-            obj.active_modifier_index += 1
+        except RuntimeError as e:
+            self.report({'WARNING'}, str(e))
+            return {'CANCELLED'}
         
         return {'FINISHED'}
     
@@ -84,22 +91,6 @@ class ModifierApply(ModifierOperator):
             print(str(e))
             self.report({'ERROR'}, "Cannot apply this modifier.")
             return {'CANCELLED'}
-
-        if obj.active_modifier_index == len(obj.modifiers):
-            obj.active_modifier_index -= 1
-            
-        return {'FINISHED'}
-
-
-class ModifierRemove(ModifierOperator):
-    bl_idname = "object.remove_modifier"
-    bl_label = "Remove Modifier"
-    
-    def execute(self, context):
-        obj = context.object
-        modifier = obj.modifiers[obj.active_modifier_index]
-
-        bpy.ops.object.modifier_remove(modifier=modifier.name)
 
         if obj.active_modifier_index == len(obj.modifiers):
             obj.active_modifier_index -= 1
@@ -178,23 +169,11 @@ class ModifierRemove(ModifierOperator):
             obj.active_modifier_index -= 1
             
         return {'FINISHED'}
-        
+
 
 class ModifierExpandSelectedOnly(ModifierOperator):
     bl_idname = "object.msm_modifier_expand_selected_only"
     bl_label = "Expand Selected Only"
-
-    @classmethod
-    def poll(cls, context):
-        space_data = context.space_data
-
-        if space_data.type == 'PROPERTIES':
-            return (
-                super().poll(context) \
-                    and space_data.context == 'MODIFIER'
-            )
-        
-        return False
 
     def execute(self, context):
         obj = context.object
