@@ -19,7 +19,7 @@ class ModifierMove(ModifierOperator):
     )
 
     def invoke(self, context, event):
-        self.move_to_end = event.shift
+        self.move_to_end = event.shift and event.ctrl is False
         return self.execute(context)
     
     def execute(self, context):
