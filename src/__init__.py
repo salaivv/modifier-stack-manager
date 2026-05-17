@@ -40,35 +40,43 @@ def draw(self, context):
 
     col.separator()
 
-    col = col.row(align=True)
 
-    col.operator("object.apply_modifier", text="Apply")
-    col.operator("object.apply_all_modifiers", text='Apply All')
+    if addon_prefs.preferences.use_apply_buttons:
+        row_apply = col.row(align=True)
+
+        row_apply.operator("object.msm_modifier_apply", text="Apply")
+        row_apply.operator("object.msm_modifier_apply_all", text='Apply All')
     
-    layout.separator()
+        layout.separator()
     
     col = row.column(align=True)
 
-    if addon_prefs.preferences.use_add_remove:
+    if addon_prefs.preferences.use_add_remove_buttons:
         if addon_prefs.preferences.use_modifier_search:
             col.operator("wm.search_single_menu", text='', icon='ADD').menu_idname = "OBJECT_MT_modifier_add"
         else:
             col.operator("wm.call_menu", text='', icon='ADD').name = "OBJECT_MT_modifier_add"
             
-        col.operator("object.remove_modifier", icon='REMOVE', text="")
+        col.operator("object.msm_modifier_remove", icon='REMOVE', text="")
+
+        if addon_prefs.preferences.use_duplicate_button:
+            col.separator()
+
+            col.operator("object.msm_modifier_copy", icon='DUPLICATE', text="")
 
         col.separator()
 
-        col.operator("object.copy_modifier", icon='DUPLICATE', text="")
-
-        col.separator()
-
-        col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-        col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+        col.operator("object.msm_modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+        col.operator("object.msm_modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
 
     else:
-        col.operator("object.modifier_move", icon='TRIA_UP', text="").direction = 'UP'
-        col.operator("object.modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+        col.operator("object.msm_modifier_move", icon='TRIA_UP', text="").direction = 'UP'
+        col.operator("object.msm_modifier_move", icon='TRIA_DOWN', text="").direction = 'DOWN'
+
+        if addon_prefs.preferences.use_duplicate_button:
+            col.separator()
+
+            col.operator("object.msm_modifier_copy", icon='DUPLICATE', text="")
 
         col.separator()
 
