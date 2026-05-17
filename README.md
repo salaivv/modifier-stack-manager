@@ -15,10 +15,37 @@ The addon enables you to do the following actions directly from the list:
   - Toggle Render/Viewport Visibility
   - Apply/Apply All Modifiers
   - Remove All Modifiers
-  - Expand selected modifier only and collapse the rest
+  - Expand selected modifier and collapse the rest
   - Collapse All Modifiers
 
-Hotkeys:
+## Feature Showcase
+
+Move modifiers up/down using __Ctrl + Shift + Up/Down Arrow__ hotkey:
+
+![Move Up/Down](images/move_up_down.gif)
+
+Move a modifier to the beginning or the end of the stack by holding down the __Shift__ key and pressing the Up/Down buttons in the UI:
+
+![Move to End](images/move_to_end.gif)
+
+Expand the selected modifier and collapse the rest using __Shift + E__ hotkey:
+
+![Expand Selected Only](images/expand_selected_only.gif)
+
+Collapse all modifiers using the __Shift + C__ hotkey:
+
+![Collapse All](images/collapse_all.gif)
+
+Enable/disable parts of the addon's UI from the addon preferences:
+
+![Addon Preferences](images/addon_preferences.gif)
+
+Certain operators can be accessed from the dropdown menu as well:
+
+![Dropdown Menu](images/dropdown_menu.jpg)
+
+
+## Hotkeys
 
 - __Ctrl + Shift + A__: Apply all modifiers. 
 - __Ctrl + Shift + X__: Remove all modifiers. 
