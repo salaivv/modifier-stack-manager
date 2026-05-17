@@ -14,7 +14,20 @@ The addon enables you to do the following actions directly from the list:
   - Rename Modifiers
   - Toggle Render/Viewport Visibility
   - Apply/Apply All Modifiers
+  - Remove All Modifiers
   - Expand selected modifier only and collapse the rest
+  - Collapse All Modifiers
+
+Hotkeys:
+
+- __Ctrl + Shift + A__: Apply all modifiers. 
+- __Ctrl + Shift + X__: Remove all modifiers. 
+- __Shift + E__: Expand the selected modifier and collapse the rest.
+- __Shift + C__: Collapse all modifers.
+- __Ctrl + Shift + Up/Down Arrow__: Move the selected modifier up/down. 
+- __Shift__: Hold while pressing the Up/Down buttons (on the right of the list; not the arrow keys) to move the modifier to the beginning or the end respectively.
+
+NOTE: All hotkeys are usable only when hovering over the *Modifiers* tab in the *Properties* window unless otherwise mentioned.
 
 ## Development
 
@@ -23,4 +36,8 @@ The addon enables you to do the following actions directly from the list:
 3. Copy the code in `testing.py` to the Text Editor in `testing.blend`.
 4. As you make changes to the code, press the _Run Script_ ▶️ button in the Text Editor to build and reinstall the addon.
 
-_NOTE: If you have the addon previously installed from the [Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/), temporarily uninstall it during development._
+NOTE: If you have the addon previously installed from the [Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/), temporarily uninstall it during development.
+
+## Limitations
+
+Currently the sync between the active modifier on the list and the stack is one way only. That is, when you click on a modifier on the list, it makes the corresposing modifier on the stack active. But this does not work the other way around.
