@@ -112,6 +112,28 @@ def register():
 
     keymaps = [
         {
+            "idname": "object.msm_modifier_move",
+            "type": 'UP_ARROW',
+            "value": 'PRESS',
+            "ctrl": True,
+            "shift": True,
+            "alt": False,
+            "properties": {
+                "direction": 'UP'
+            }
+        },
+        {
+            "idname": "object.msm_modifier_move",
+            "type": 'DOWN_ARROW',
+            "value": 'PRESS',
+            "ctrl": True,
+            "shift": True,
+            "alt": False,
+            "properties": {
+                "direction": 'DOWN'
+            }
+        },
+        {
             "idname": "object.msm_modifier_apply_all",
             "type": 'A',
             "value": 'PRESS',
