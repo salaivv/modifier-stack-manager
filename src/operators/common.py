@@ -1,6 +1,16 @@
 import bpy
 
 
+def is_instanced(obj):
+    user_map = bpy.data.user_map(subset=[obj.data])
+    users = [user for user in user_map[obj.data] if user.id_type == 'OBJECT']
+    
+    if len(users) > 1:
+        return True
+    
+    return False
+
+
 class ModifierOperator(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
@@ -28,3 +38,19 @@ class ModifierOperator(bpy.types.Operator):
     def get_modifier_index(modifier):
         obj = modifier.id_data
         return list(obj.modifiers).index(modifier)
+
+
+class ModifierApplyOperator(ModifierOperator):
+    def invoke(self, context, event):
+        self.data_is_instanced = False
+
+        if is_instanced(context.object):
+            self.data_is_instanced = True
+
+            return context.window_manager.invoke_confirm(
+                self, event, title="Apply All Modifiers", confirm_text="Yes", icon='WARNING',
+                message=("The active object is an instance. Make object data single-user "
+                         "and then apply all modifiers?")
+            )
+        
+        return self.execute(context)

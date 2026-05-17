@@ -1,5 +1,5 @@
 import bpy
-from .common import ModifierOperator
+from .common import ModifierOperator, ModifierApplyOperator
 
 
 class ModifierMove(ModifierOperator):
@@ -67,7 +67,7 @@ class ModifierCopy(ModifierOperator):
         return {'FINISHED'}
 
 
-class ModifierApply(ModifierOperator):
+class ModifierApply(ModifierApplyOperator):
     bl_idname = "object.msm_modifier_apply"
     bl_label = "Apply Modifier"
 
@@ -83,6 +83,10 @@ class ModifierApply(ModifierOperator):
     
     def execute(self, context):
         obj = context.object
+
+        if self.data_is_instanced:
+            obj.data = obj.data.copy()
+
         modifier = obj.modifiers[obj.active_modifier_index]
 
         try:
@@ -98,7 +102,7 @@ class ModifierApply(ModifierOperator):
         return {'FINISHED'}
 
 
-class ModifierApplyAll(ModifierOperator):
+class ModifierApplyAll(ModifierApplyOperator):
     bl_idname = "object.msm_modifier_apply_all"
     bl_label = "Apply All"
     
@@ -115,8 +119,10 @@ class ModifierApplyAll(ModifierOperator):
     
     def execute(self, context):
         obj = context.object
-
         failed = False
+
+        if self.data_is_instanced:
+            obj.data = obj.data.copy()
 
         with context.temp_override(object=obj, selected_editable_objects=[obj]):
             if obj.type in {'MESH', 'CURVE', 'FONT', 'SURFACE'}:
@@ -190,6 +196,7 @@ class ModifierExpandSelectedOnly(ModifierOperator):
         active_modifier.show_expanded = True
 
         return {'FINISHED'}
+
 
 class ModifierCollapseAll(ModifierOperator):
     bl_idname = "object.msm_modifier_collapse_all"
