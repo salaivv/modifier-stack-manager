@@ -110,40 +110,52 @@ def register():
 
     bpy.types.DATA_PT_modifiers.prepend(draw)        
 
-    keymaps = {
-        "Window": [
-            {
-                "idname": "object.apply_all_modifiers",
-                "type": 'A',
-                "value": 'PRESS',
-                "ctrl": True,
-                "shift": True,
-                "alt": False,
-            },
-            {
-                "idname": "object.expand_selected_modifier_only",
-                "type": 'E',
-                "value": 'PRESS',
-                "ctrl": False,
-                "shift": True,
-                "alt": False,
-            },
-        ]
-    }
+    keymaps = [
+        {
+            "idname": "object.msm_modifier_apply_all",
+            "type": 'A',
+            "value": 'PRESS',
+            "ctrl": True,
+            "shift": True,
+            "alt": False,
+        },
+        {
+            "idname": "object.msm_modifier_remove",
+            "type": 'X',
+            "value": 'PRESS',
+            "ctrl": True,
+            "shift": True,
+            "alt": False,
+            "properties": {
+                "all": True
+            }
+        },
+        {
+            "idname": "object.msm_modifier_expand_selected_only",
+            "type": 'E',
+            "value": 'PRESS',
+            "ctrl": False,
+            "shift": True,
+            "alt": False,
+        },
+    ]
 
     keymap_config = bpy.context.window_manager.keyconfigs.addon
 
     if keymap_config:
-        for km_name in keymaps.keys():
-            km = keymap_config.keymaps.new(name=km_name)
+        km = keymap_config.keymaps.new(name="Property Editor", space_type='PROPERTIES')
 
-            for keymap in keymaps[km_name]:
-                kmi = km.keymap_items.new(
-                    keymap["idname"], keymap["type"], keymap["value"],
-                    ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"]
-                )
+        for keymap in keymaps:
+            kmi = km.keymap_items.new(
+                keymap["idname"], keymap["type"], keymap["value"],
+                ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"]
+            )
 
-                addon_keymaps.append((km, kmi))
+            if "properties" in keymap.keys():
+                for property, value in keymap["properties"].items():
+                    setattr(kmi.properties, property, value)
+
+            addon_keymaps.append((km, kmi))
 
 
 def unregister():
