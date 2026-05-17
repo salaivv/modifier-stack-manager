@@ -6,6 +6,10 @@ class ModifierOperator(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
+        space_data = context.space_data
+        if not space_data.type == 'PROPERTIES':
+            return False
+
         obj = context.object
 
         supported_types = {
@@ -17,6 +21,7 @@ class ModifierOperator(bpy.types.Operator):
             obj is not None \
                 and obj.type in supported_types
                 and len(context.object.modifiers) > 0
+                and space_data.context == 'MODIFIER'
         )
 
     @staticmethod
