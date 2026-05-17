@@ -118,24 +118,26 @@ class ModifierApplyAll(ModifierOperator):
 
         failed = False
 
-        if obj.type in {'MESH', 'CURVE', 'FONT', 'SURFACE'}:
-            bpy.ops.object.convert(target='MESH')
+        with context.temp_override(object=obj, selected_editable_objects=[obj]):
+            if obj.type in {'MESH', 'CURVE', 'FONT', 'SURFACE'}:
+                bpy.ops.object.convert(target='MESH')
 
-        elif obj.type == 'CURVES':
-            bpy.ops.object.convert(target='CURVES')
+            elif obj.type == 'CURVES':
+                bpy.ops.object.convert(target='CURVES')
 
-        elif obj.type in {'LATTICE', 'GREASEPENCIL'}:
-            for mod in obj.modifiers:
-                try:
-                    bpy.ops.object.modifier_apply(modifier=mod.name)
-                except Exception as e:
-                    failed = True
-                    print(str(e))
-                    self.report({'WARNING'}, "Failed to apply all modifiers.")
+            elif obj.type in {'LATTICE', 'GREASEPENCIL'}:
+                for modifier in obj.modifiers:
+                    try:
+                        bpy.ops.object.modifier_apply(modifier=modifier.name)
+                    except Exception as e:
+                        failed = True
+                        print(str(e))
 
-        if failed:
-            active_mod = obj.modifiers.active
-            obj.active_modifier_index = ModifierOperator.get_modifier_index(active_mod)
+            if failed:
+                active_modifier = obj.modifiers.active
+                obj.active_modifier_index = ModifierOperator.get_modifier_index(active_modifier)
+                self.report({'WARNING'}, "Failed to apply all modifiers.")
+                return {'FINISHED'}
 
         self.report({'INFO'}, "Applied all modifiers.")
 
