@@ -48,9 +48,9 @@ class ModifierApplyOperator(ModifierOperator):
             self.data_is_instanced = True
 
             return context.window_manager.invoke_confirm(
-                self, event, title="Apply All Modifiers", confirm_text="Yes", icon='WARNING',
+                self, event, title=self.bl_label, confirm_text="Yes", icon='WARNING',
                 message=("The active object is an instance. Make object data single-user "
-                         "and then apply all modifiers?")
+                         "and then apply?")
             )
         
         return self.execute(context)
