@@ -9,13 +9,12 @@ class MODIFIER_MT_dropdown_menu(Menu):
     def draw(self, context):
         layout = self.layout
 
-        layout.operator("object.msm_modifier_apply", text="Apply Modifier", icon='CHECKMARK')
-        layout.operator("object.msm_modifier_apply_all", text="Apply All Modifiers")
+        layout.operator("object.msm_modifier_apply", icon='CHECKMARK')
+        layout.operator("object.msm_modifier_apply_all")
 
         layout.separator()
 
         layout.operator("object.msm_modifier_expand_selected_only")
-
         layout.operator("object.msm_modifier_collapse_all")
 
         layout.separator()
@@ -24,10 +23,5 @@ class MODIFIER_MT_dropdown_menu(Menu):
 
         layout.separator()
 
-        op = layout.operator(
-            "object.msm_modifier_remove",
-            text="Remove All Modifiers",
-            icon='TRASH'
-        )
-
+        op = layout.operator("object.msm_modifier_remove", text="Remove All Modifiers", icon='TRASH')
         op.all = True

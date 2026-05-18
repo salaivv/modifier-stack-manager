@@ -4,7 +4,7 @@ from .common import ModifierOperator, ModifierApplyOperator
 
 class ModifierMove(ModifierOperator):
     bl_idname = "object.msm_modifier_move"
-    bl_label = "Modifier Move"
+    bl_label = "Move Modifier"
     
     direction: bpy.props.EnumProperty(
         items=[
@@ -40,11 +40,7 @@ class ModifierMove(ModifierOperator):
             to_index = len(obj.modifiers)-1 if self.move_to_end else obj.active_modifier_index + 1
 
         try:
-            obj.modifiers.move(
-                obj.active_modifier_index,
-                to_index
-            )
-
+            obj.modifiers.move(obj.active_modifier_index, to_index)
             obj.active_modifier_index = to_index
 
         except RuntimeError as e:
@@ -104,7 +100,7 @@ class ModifierApply(ModifierApplyOperator):
 
 class ModifierApplyAll(ModifierApplyOperator):
     bl_idname = "object.msm_modifier_apply_all"
-    bl_label = "Apply All"
+    bl_label = "Apply All Modifiers"
     
     @classmethod
     def poll(cls, context):
