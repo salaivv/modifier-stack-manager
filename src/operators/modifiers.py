@@ -15,7 +15,8 @@ class ModifierMove(ModifierOperator):
 
     move_to_end: bpy.props.BoolProperty(
         name="Move to End",
-        default=False
+        default=False,
+        options={'SKIP_SAVE'}
     )
 
     def invoke(self, context, event):
