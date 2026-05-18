@@ -152,7 +152,8 @@ class ModifierRemove(ModifierOperator):
 
     all: bpy.props.BoolProperty(
         name="Remove All",
-        default=False
+        default=False,
+        options={'SKIP_SAVE'}
     )
     
     def execute(self, context):
