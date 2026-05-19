@@ -34,11 +34,6 @@ class ModifierOperator(bpy.types.Operator):
                 and space_data.context == 'MODIFIER'
         )
 
-    @staticmethod
-    def get_modifier_index(modifier):
-        obj = modifier.id_data
-        return list(obj.modifiers).index(modifier)
-
 
 class ModifierApplyOperator(ModifierOperator):
     def invoke(self, context, event):

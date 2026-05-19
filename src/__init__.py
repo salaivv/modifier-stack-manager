@@ -93,16 +93,21 @@ addon_keymaps = []
 
 
 def register():
-    def update_active_modifier(self, context):
-        obj = context.object
+    def get_active_modifier_index(self):
+        if self.modifiers:
+            return self.modifiers.find(self.modifiers.active.name)
+        
+        return 0
 
-        if len(obj.modifiers) > 0:
-            obj.modifiers.active = obj.modifiers[self.active_modifier_index]
-
+    def set_active_modifier_index(self, value):
+        if self.modifiers:
+            self.modifiers[value].is_active = True
+        
     bpy.types.Object.active_modifier_index = bpy.props.IntProperty(
         default=0,
         min=0,
-        update=update_active_modifier
+        get=get_active_modifier_index,
+        set=set_active_modifier_index
     )
 
     for cl in cls:

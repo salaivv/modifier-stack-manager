@@ -42,7 +42,6 @@ class ModifierMove(ModifierOperator):
 
         try:
             obj.modifiers.move(obj.active_modifier_index, to_index)
-            obj.active_modifier_index = to_index
 
         except RuntimeError as e:
             self.report({'WARNING'}, str(e))
@@ -57,9 +56,7 @@ class ModifierCopy(ModifierOperator):
     
     def execute(self, context):
         obj = context.object
-        modifier = obj.modifiers[obj.active_modifier_index]
-        bpy.ops.object.modifier_copy(modifier=modifier.name)
-        obj.active_modifier_index += 1
+        bpy.ops.object.modifier_copy(modifier=obj.modifiers.active.name)
         
         return {'FINISHED'}
 
@@ -84,17 +81,12 @@ class ModifierApply(ModifierApplyOperator):
         if self.data_is_instanced:
             obj.data = obj.data.copy()
 
-        modifier = obj.modifiers[obj.active_modifier_index]
-
         try:
-            bpy.ops.object.modifier_apply(modifier=modifier.name)
+            bpy.ops.object.modifier_apply(modifier=obj.modifiers.active.name)
         except Exception as e:
             print(str(e))
             self.report({'ERROR'}, "Cannot apply this modifier.")
             return {'CANCELLED'}
-
-        if obj.active_modifier_index == len(obj.modifiers):
-            obj.active_modifier_index -= 1
             
         return {'FINISHED'}
 
@@ -137,8 +129,6 @@ class ModifierApplyAll(ModifierApplyOperator):
                         print(str(e))
 
             if failed:
-                active_modifier = obj.modifiers.active
-                obj.active_modifier_index = ModifierOperator.get_modifier_index(active_modifier)
                 self.report({'WARNING'}, "Failed to apply all modifiers.")
                 return {'FINISHED'}
 
@@ -162,17 +152,11 @@ class ModifierRemove(ModifierOperator):
 
         if self.all:
             obj.modifiers.clear()
-            obj.active_modifier_index = 0
             self.report({'INFO'}, "Removed all modifiers.")
 
             return {'FINISHED'}
 
-        modifier = obj.modifiers[obj.active_modifier_index]
-
-        bpy.ops.object.modifier_remove(modifier=modifier.name)
-
-        if obj.active_modifier_index == len(obj.modifiers):
-            obj.active_modifier_index -= 1
+        bpy.ops.object.modifier_remove(modifier=obj.modifiers.active.name)
             
         return {'FINISHED'}
 
@@ -185,13 +169,11 @@ class ModifierExpandSelectedOnly(ModifierOperator):
     def execute(self, context):
         obj = context.object
 
-        active_modifier = obj.modifiers[obj.active_modifier_index]
-
         for modifier in obj.modifiers:
-            if not modifier is active_modifier:
+            if not modifier is obj.modifiers.active:
                 modifier.show_expanded = False
         
-        active_modifier.show_expanded = True
+        obj.modifiers.active.show_expanded = True
 
         return {'FINISHED'}
 
