@@ -16,8 +16,12 @@ class MODIFIER_UL_modifier_stack(UIList):
         
         if self.layout_type in {'DEFAULT', 'COMPACT'}:
             layout.prop(md, 'name', text="", emboss=False, icon_value=layout.icon(md))
-            layout.prop(md, 'show_viewport', text="", emboss=False, icon_only=True)
-            layout.prop(md, 'show_render', text="", emboss=False, icon_only=True)
+
+            if addon_prefs.preferences.use_show_viewport_toggle:
+                layout.prop(md, 'show_viewport', text="", emboss=False, icon_only=True)
+
+            if addon_prefs.preferences.use_show_render_toggle:
+                layout.prop(md, 'show_render', text="", emboss=False, icon_only=True)
 
             if addon_prefs.preferences.use_show_in_editmode_toggle:
                 layout.prop(md, 'show_in_editmode', text="", emboss=False, icon_only=True)
