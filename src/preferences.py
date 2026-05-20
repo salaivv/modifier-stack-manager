@@ -35,6 +35,24 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
         min=6
     )
 
+    use_show_viewport_toggle: bpy.props.BoolProperty(
+        name="Show Viewport Toggle",
+        description="Show the Viewport Toggle icon for each modifier in the list",
+        default=True
+    )
+
+    use_show_render_toggle: bpy.props.BoolProperty(
+        name="Show Render Toggle",
+        description="Show the Render Toggle icon for each modifier in the list",
+        default=True
+    )
+
+    use_show_in_editmode_toggle: bpy.props.BoolProperty(
+        name="Show Edit Mode Toggle",
+        description="Show the Edit Mode Toggle icon for each modifier in the list",
+        default=False
+    )
+
     def draw(self, context):
         layout = self.layout
         layout.use_property_split = True
