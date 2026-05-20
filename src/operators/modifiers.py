@@ -1,5 +1,9 @@
 import bpy
-from .common import ModifierOperator, ModifierApplyOperator
+from .common import (
+    ModifierOperator, 
+    ModifierApplyOperator, 
+    format_error_message
+)
 
 
 class ModifierMove(ModifierOperator):
@@ -44,7 +48,7 @@ class ModifierMove(ModifierOperator):
             obj.modifiers.move(obj.active_modifier_index, to_index)
 
         except RuntimeError as e:
-            self.report({'WARNING'}, str(e))
+            self.report({'WARNING'}, format_error_message(str(e)))
             return {'CANCELLED'}
         
         return {'FINISHED'}
@@ -83,9 +87,8 @@ class ModifierApply(ModifierApplyOperator):
 
         try:
             bpy.ops.object.modifier_apply(modifier=obj.modifiers.active.name)
-        except Exception as e:
-            print(str(e))
-            self.report({'ERROR'}, "Cannot apply this modifier.")
+        except RuntimeError as e:
+            self.report({'ERROR'}, format_error_message(str(e)))
             return {'CANCELLED'}
             
         return {'FINISHED'}

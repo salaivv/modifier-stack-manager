@@ -11,6 +11,10 @@ def is_instanced(obj):
     return False
 
 
+def format_error_message(message):
+    return message.replace("Error: ", "")
+
+
 class ModifierOperator(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
