@@ -108,7 +108,6 @@ class ModifierApplyAll(ModifierApplyOperator):
     
     def execute(self, context):
         obj = context.object
-        failed = False
 
         if self.data_is_instanced:
             obj.data = obj.data.copy()
@@ -124,13 +123,10 @@ class ModifierApplyAll(ModifierApplyOperator):
                 for modifier in obj.modifiers:
                     try:
                         bpy.ops.object.modifier_apply(modifier=modifier.name)
-                    except Exception as e:
-                        failed = True
-                        print(str(e))
-
-            if failed:
-                self.report({'WARNING'}, "Failed to apply all modifiers.")
-                return {'FINISHED'}
+                    except RuntimeError as e:
+                        message = f"Failed when applying {modifier.name}: {format_error_message(str(e))}"
+                        self.report({'ERROR'}, message)
+                        return {'FINISHED'}
 
         self.report({'INFO'}, "Applied all modifiers.")
 
