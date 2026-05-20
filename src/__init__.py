@@ -123,6 +123,7 @@ def register():
             "ctrl": True,
             "shift": True,
             "alt": False,
+            "repeat": True,
             "properties": {
                 "direction": 'UP'
             }
@@ -134,6 +135,7 @@ def register():
             "ctrl": True,
             "shift": True,
             "alt": False,
+            "repeat": True,
             "properties": {
                 "direction": 'DOWN'
             }
@@ -145,6 +147,7 @@ def register():
             "ctrl": True,
             "shift": True,
             "alt": False,
+            "repeat": False,
         },
         {
             "idname": "object.msm_modifier_remove",
@@ -153,6 +156,7 @@ def register():
             "ctrl": True,
             "shift": True,
             "alt": False,
+            "repeat": False,
             "properties": {
                 "all": True
             }
@@ -164,6 +168,7 @@ def register():
             "ctrl": False,
             "shift": True,
             "alt": False,
+            "repeat": False,
         },
         {
             "idname": "object.msm_modifier_collapse_all",
@@ -172,6 +177,7 @@ def register():
             "ctrl": False,
             "shift": True,
             "alt": False,
+            "repeat": False,
         },
     ]
 
@@ -183,7 +189,8 @@ def register():
         for keymap in keymaps:
             kmi = km.keymap_items.new(
                 keymap["idname"], keymap["type"], keymap["value"],
-                ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"]
+                ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"],
+                repeat=keymap["repeat"]
             )
 
             if "properties" in keymap.keys():
