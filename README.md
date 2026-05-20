@@ -67,4 +67,6 @@ NOTE: If you have the addon previously installed from the [Extensions Platform](
 
 ## Limitations
 
-Currently the sync between the active modifier on the list and the stack is one way only. That is, when you click on a modifier on the list, it makes the corresposing modifier on the stack active. But this does not work the other way around.
+Currently the sync between the active modifier on the list and the stack is one way only. That is, when you click on a modifier on the list, it makes the corresponding modifier on the stack active. But this does not work the other way around.
+
+This has been fixed and will be part of the next release. See [this commit](https://github.com/salaivv/modifier-stack-manager/commit/be35c458b4f04ba46c3ea7f0c09fbca48f19aaf0) for more details.
