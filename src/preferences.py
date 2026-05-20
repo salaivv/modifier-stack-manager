@@ -17,7 +17,7 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
     )
 
     use_apply_buttons: bpy.props.BoolProperty(
-        name="Show Apply/Apply All",
+        name="Show Apply/Apply All Buttons",
         description="Show Apply/Apply All buttons below the modifier list",
         default=False
     )
@@ -57,11 +57,28 @@ class ModifierStackManagerPreferences(bpy.types.AddonPreferences):
         layout = self.layout
         layout.use_property_split = True
 
-        layout.prop(self, "use_add_remove_buttons")
-        layout.prop(self, "use_duplicate_button")
-        layout.prop(self, "use_apply_buttons")
-        layout.prop(self, "use_modifier_search")
-        layout.prop(self, "default_list_height")
+        header, body = layout.panel("modifier_list")
+        header.label(text="Modifier List")
+        
+        if body:
+            body.prop(self, "default_list_height")
+            body.prop(self, "use_show_viewport_toggle")
+            body.prop(self, "use_show_render_toggle")
+            body.prop(self, "use_show_in_editmode_toggle")
+
+        header, body = layout.panel("operators")
+        header.label(text="Operators")
+
+        if body:
+            row = body.row()
+            row.prop(self, "use_add_remove_buttons")
+
+            col = row.column()
+            col.enabled = self.use_add_remove_buttons
+            col.prop(self, "use_modifier_search")
+
+            body.prop(self, "use_duplicate_button")
+            body.prop(self, "use_apply_buttons")
 
 
 def register():
