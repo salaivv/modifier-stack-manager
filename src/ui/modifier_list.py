@@ -1,6 +1,11 @@
 import bpy
 from bpy.types import UIList
 
+from .. import __package__ as base_package
+
+
+addon_prefs = bpy.context.preferences.addons[base_package]
+
 
 class MODIFIER_UL_modifier_stack(UIList):
     def draw_item(
@@ -13,6 +18,9 @@ class MODIFIER_UL_modifier_stack(UIList):
             layout.prop(md, 'name', text="", emboss=False, icon_value=layout.icon(md))
             layout.prop(md, 'show_viewport', text="", emboss=False, icon_only=True)
             layout.prop(md, 'show_render', text="", emboss=False, icon_only=True)
+
+            if addon_prefs.preferences.use_show_in_editmode_toggle:
+                layout.prop(md, 'show_in_editmode', text="", emboss=False, icon_only=True)
 
         elif self.layout_type == 'GRID':
             layout.alignment = 'CENTER'
