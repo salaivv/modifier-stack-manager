@@ -12,7 +12,7 @@ The addon enables you to do the following actions directly from the list:
   - Duplicate Modifiers
   - Rearrange Modifiers
   - Rename Modifiers
-  - Toggle Render/Viewport Visibility
+  - Toggle Render/Viewport/Edit Mode Visibility
   - Apply/Apply All Modifiers
   - Remove All Modifiers
   - Expand selected modifier and collapse the rest
@@ -51,7 +51,7 @@ Certain operators can be accessed from the dropdown menu as well:
 - __Ctrl + Shift + X__: Remove all modifiers. 
 - __Shift + E__: Expand the selected modifier and collapse the rest.
 - __Shift + C__: Collapse all modifers.
-- __Ctrl + Shift + Up/Down Arrow__: Move the selected modifier up/down. Repeatable when the hotekey is held.
+- __Ctrl + Shift + Up/Down Arrow__: Move the selected modifier up/down. Repeatable when the hotkey is held.
 - __Shift__: Hold while pressing the Up/Down buttons in the UI to move the modifier to the beginning or the end respectively.
 
 NOTE: All hotkeys are usable only when hovering over the *Modifiers* tab in the *Properties* window unless otherwise mentioned.
