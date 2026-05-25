@@ -14,8 +14,9 @@ class MODIFIER_MT_dropdown_menu(Menu):
 
         layout.separator()
 
-        layout.operator("object.msm_modifier_expand_selected_only")
-        layout.operator("object.msm_modifier_collapse_all")
+        layout.operator("object.msm_modifier_remove", icon='TRASH')
+        op = layout.operator("object.msm_modifier_remove", text="Remove All Modifiers")
+        op.all = True
 
         layout.separator()
 
@@ -23,5 +24,5 @@ class MODIFIER_MT_dropdown_menu(Menu):
 
         layout.separator()
 
-        op = layout.operator("object.msm_modifier_remove", text="Remove All Modifiers", icon='TRASH')
-        op.all = True
+        layout.operator("object.msm_modifier_expand_selected_only")
+        layout.operator("object.msm_modifier_collapse_all")
