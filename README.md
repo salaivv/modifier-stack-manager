@@ -51,8 +51,8 @@ Certain operators can be accessed from the dropdown menu as well:
 - __Ctrl + Shift + X__: Remove all modifiers. 
 - __Shift + E__: Expand the selected modifier and collapse the rest.
 - __Shift + C__: Collapse all modifers.
-- __Ctrl + Shift + Up/Down Arrow__: Move the selected modifier up/down. 
-- __Shift__: Hold while pressing the Up/Down buttons (on the right of the list; not the arrow keys) to move the modifier to the beginning or the end respectively.
+- __Ctrl + Shift + Up/Down Arrow__: Move the selected modifier up/down. Repeatable when the hotekey is held.
+- __Shift__: Hold while pressing the Up/Down buttons in the UI to move the modifier to the beginning or the end respectively.
 
 NOTE: All hotkeys are usable only when hovering over the *Modifiers* tab in the *Properties* window unless otherwise mentioned.
 
@@ -65,8 +65,7 @@ NOTE: All hotkeys are usable only when hovering over the *Modifiers* tab in the 
 
 NOTE: If you have the addon previously installed from the [Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/), temporarily uninstall it during development.
 
-## Limitations
+## Links
 
-Currently the sync between the active modifier on the list and the stack is one way only. That is, when you click on a modifier on the list, it makes the corresponding modifier on the stack active. But this does not work the other way around.
-
-This has been fixed and will be part of the next release. See [this commit](https://github.com/salaivv/modifier-stack-manager/commit/be35c458b4f04ba46c3ea7f0c09fbca48f19aaf0) for more details.
+- [Blender Extensions Platform](https://extensions.blender.org/add-ons/modifer-stack-manager/) – Download the extension, rate/review, version history, etc.
+- [Blender Artists Thread](https://blenderartists.org/t/modifier-stack-manager/1165499) – Feedback, feature requests, general discussions, etc.
