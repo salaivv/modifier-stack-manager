@@ -18,8 +18,10 @@
 
 
 import bpy
+from . import props
 from . import preferences
 from . import operators
+from . import keymaps
 from . import ui
 
 
@@ -29,7 +31,7 @@ def draw(self, context):
     layout = self.layout
     
     obj = context.object
-    
+
     row = layout.row()
     col = row.column(align=True)
 
@@ -84,8 +86,10 @@ def draw(self, context):
 
 
 cls = (
-    operators,
+    props,
     preferences,
+    operators,
+    keymaps,
     ui
 )
 
@@ -93,125 +97,17 @@ addon_keymaps = []
 
 
 def register():
-    def get_active_modifier_index(self):
-        if self.modifiers:
-            return self.modifiers.find(self.modifiers.active.name)
-        
-        return 0
-
-    def set_active_modifier_index(self, value):
-        if self.modifiers:
-            self.modifiers[value].is_active = True
-        
-    bpy.types.Object.active_modifier_index = bpy.props.IntProperty(
-        default=0,
-        min=0,
-        get=get_active_modifier_index,
-        set=set_active_modifier_index
-    )
-
     for cl in cls:
         cl.register()
 
-    bpy.types.DATA_PT_modifiers.prepend(draw)        
-
-    keymaps = [
-        {
-            "idname": "object.msm_modifier_move",
-            "type": 'UP_ARROW',
-            "value": 'PRESS',
-            "ctrl": True,
-            "shift": True,
-            "alt": False,
-            "repeat": True,
-            "properties": {
-                "direction": 'UP'
-            }
-        },
-        {
-            "idname": "object.msm_modifier_move",
-            "type": 'DOWN_ARROW',
-            "value": 'PRESS',
-            "ctrl": True,
-            "shift": True,
-            "alt": False,
-            "repeat": True,
-            "properties": {
-                "direction": 'DOWN'
-            }
-        },
-        {
-            "idname": "object.msm_modifier_apply_all",
-            "type": 'A',
-            "value": 'PRESS',
-            "ctrl": True,
-            "shift": True,
-            "alt": False,
-            "repeat": False,
-        },
-        {
-            "idname": "object.msm_modifier_remove",
-            "type": 'X',
-            "value": 'PRESS',
-            "ctrl": True,
-            "shift": True,
-            "alt": False,
-            "repeat": False,
-            "properties": {
-                "all": True
-            }
-        },
-        {
-            "idname": "object.msm_modifier_expand_selected_only",
-            "type": 'E',
-            "value": 'PRESS',
-            "ctrl": False,
-            "shift": True,
-            "alt": False,
-            "repeat": False,
-        },
-        {
-            "idname": "object.msm_modifier_collapse_all",
-            "type": 'C',
-            "value": 'PRESS',
-            "ctrl": False,
-            "shift": True,
-            "alt": False,
-            "repeat": False,
-        },
-    ]
-
-    keymap_config = bpy.context.window_manager.keyconfigs.addon
-
-    if keymap_config:
-        km = keymap_config.keymaps.new(name="Property Editor", space_type='PROPERTIES')
-
-        for keymap in keymaps:
-            kmi = km.keymap_items.new(
-                keymap["idname"], keymap["type"], keymap["value"],
-                ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"],
-                repeat=keymap["repeat"]
-            )
-
-            if "properties" in keymap.keys():
-                for property, value in keymap["properties"].items():
-                    setattr(kmi.properties, property, value)
-
-            addon_keymaps.append((km, kmi))
+    bpy.types.DATA_PT_modifiers.prepend(draw)
 
 
 def unregister():
-    for km, kmi in addon_keymaps:
-        km.keymap_items.remove(kmi)
-
-    addon_keymaps.clear()
-
     bpy.types.DATA_PT_modifiers.remove(draw)
 
     for cl in reversed(cls):
         cl.unregister()
-
-    del(bpy.types.Object.active_modifier_index)
 
 
 if __name__ == "__main__":
