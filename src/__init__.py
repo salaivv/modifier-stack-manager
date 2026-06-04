@@ -36,8 +36,9 @@ def draw(self, context):
     col = row.column(align=True)
 
     col.template_list(
-        'MODIFIER_UL_modifier_stack', '', obj, 'modifiers', obj,
-        'active_modifier_index', rows=addon_prefs.preferences.default_list_height
+        'MODIFIER_UL_modifier_stack', '', obj, "modifiers", obj,
+        "active_modifier_index", item_dyntip_propname="name",
+        rows=addon_prefs.preferences.default_list_height
     )
 
     col.separator()
