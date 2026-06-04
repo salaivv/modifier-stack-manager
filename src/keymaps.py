@@ -8,7 +8,6 @@ keymaps = [
         "value": 'PRESS',
         "ctrl": True,
         "shift": True,
-        "alt": False,
         "repeat": True,
         "properties": {
             "direction": 'UP'
@@ -20,7 +19,6 @@ keymaps = [
         "value": 'PRESS',
         "ctrl": True,
         "shift": True,
-        "alt": False,
         "repeat": True,
         "properties": {
             "direction": 'DOWN'
@@ -32,8 +30,6 @@ keymaps = [
         "value": 'PRESS',
         "ctrl": True,
         "shift": True,
-        "alt": False,
-        "repeat": False,
     },
     {
         "idname": "object.msm_modifier_remove",
@@ -41,8 +37,6 @@ keymaps = [
         "value": 'PRESS',
         "ctrl": True,
         "shift": True,
-        "alt": False,
-        "repeat": False,
         "properties": {
             "all": True
         }
@@ -51,19 +45,13 @@ keymaps = [
         "idname": "object.msm_modifier_expand_selected_only",
         "type": 'E',
         "value": 'PRESS',
-        "ctrl": False,
         "shift": True,
-        "alt": False,
-        "repeat": False,
     },
     {
         "idname": "object.msm_modifier_collapse_all",
         "type": 'C',
         "value": 'PRESS',
-        "ctrl": False,
         "shift": True,
-        "alt": False,
-        "repeat": False,
     },
 ]
 
@@ -80,11 +68,13 @@ def register():
         for keymap in keymaps:
             kmi = km.keymap_items.new(
                 keymap["idname"], keymap["type"], keymap["value"],
-                ctrl=keymap["ctrl"], shift=keymap["shift"], alt=keymap["alt"],
-                repeat=keymap["repeat"]
+                ctrl=keymap.get("ctrl", False),
+                shift=keymap.get("shift", False),
+                alt=keymap.get("alt", False),
+                repeat=keymap.get("repeat", False)
             )
 
-            if "properties" in keymap.keys():
+            if "properties" in keymap:
                 for property, value in keymap["properties"].items():
                     setattr(kmi.properties, property, value)
 
