@@ -43,7 +43,6 @@ def draw(self, context):
 
     col.separator()
 
-
     if addon_prefs.preferences.use_apply_buttons:
         row_apply = col.row(align=True)
 
@@ -93,8 +92,6 @@ cls = (
     keymaps,
     ui
 )
-
-addon_keymaps = []
 
 
 def register():
